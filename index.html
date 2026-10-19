@@ -342,6 +342,16 @@ tr:hover td{background:var(--bg3)}
 .ayuda h2,.ayuda h3{scroll-margin-top:80px}
 @media(max-width:768px){.ped-fab{padding:8px 12px;font-size:12px}}
 .usr-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+.perm-box{border:1px solid var(--border2);border-radius:var(--radius);padding:10px 12px;margin-top:12px;background:var(--bg)}
+.perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;margin-top:6px}
+.perm-tit{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:4px 0}
+.modal .perm-it{display:flex;gap:8px;align-items:flex-start;margin:5px 0;cursor:pointer;font-size:12.5px;color:var(--text)}
+.modal .perm-it input{width:auto;margin-top:2px}
+.perm-it small{display:block;color:var(--text3);font-size:10.5px}
+.cart-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0 12px;padding-left:24px;max-height:180px;overflow:auto}
+.modal .cart-it{margin:2px 0}
+.perm-chip{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:99px;background:var(--bg4);color:var(--text2);margin:1px 2px 1px 0;white-space:nowrap}
+@media(max-width:640px){.perm-grid{grid-template-columns:1fr}}
 .usr-grid label{margin-top:6px}
 @media(max-width:640px){.usr-grid{grid-template-columns:1fr}}
 </style>
@@ -496,6 +506,8 @@ tr:hover td{background:var(--bg3)}
     <div class="pagination" id="pagination"></div>
   </div>
 </div>
+
+<div class="main" id="sin-permisos" style="display:none"><div class="empty"><i class="ti ti-lock"></i>Tu usuario todavía no tiene ninguna solapa habilitada.<br>Pedile a administración que te asigne permisos.</div></div>
 
 <div class="main" id="view-cumplimiento" style="display:none">
   <div class="cump-banner">
@@ -752,17 +764,21 @@ tr:hover td{background:var(--bg3)}
 <li>El nombre del vendedor tiene que coincidir con el que figura en Cartera (el que viene de Odoo).</li>
 </ul>
 
-<h2 id="a-usuarios">4. Usuarios y claves</h2>
+<h2 id="a-usuarios">4. Usuarios, claves y permisos</h2>
 <p>El botón <em>Usuarios</em> (arriba, solo para administración) permite manejar quién entra al panel sin salir de acá.</p>
 <ul>
 <li><strong>Nuevo usuario:</strong> nombre, usuario para ingresar (sin espacios, se guarda en minúscula), rol, mail y clave inicial (mínimo 6 caracteres; <em>Generar</em> arma una al azar). Pasale la clave al usuario por un canal privado: después no se puede volver a ver.</li>
 <li><strong>Rol vendedor:</strong> hay que indicar el <em>vendedor asignado</em> escrito igual que en Cartera (se sugiere de la lista). Ese usuario solo ve sus clientes, sus objetivos y no puede subir archivos. Si el nombre no coincide con ningún vendedor de la cartera actual aparece un ⚠.</li>
-<li><strong>Otros roles</strong> (admin, etc.) ven todo y pueden actualizar datos, editar % de objetivos, mails y usuarios.</li>
+<li><strong>Otros roles</strong> (admin, etc.) por defecto ven todo y pueden hacer todo; se puede recortar con los permisos.</li>
 <li><strong>Editar:</strong> cambiar nombre, rol, vendedor, mail o poner una clave nueva (si la dejás vacía no se cambia).</li>
 <li><strong>Dar de baja:</strong> destildá <em>Activo</em>. El usuario no puede volver a entrar y se le cierran las sesiones abiertas. No se borra, así queda el historial de sus gestiones.</li>
 <li>Cambiar la clave de alguien también le cierra las sesiones abiertas en otros dispositivos.</li>
 <li>No podés desactivarte ni quitarte el rol de administración a vos mismo (para no quedarte afuera).</li>
 <li>El mail de un usuario vendedor se suma solo a <em>Mails de vendedores</em> para el informe por mail.</li>
+<li><strong>Cartera que ve:</strong> define qué clientes ve el usuario en <em>todas</em> las solapas (Cartera, Calendario, Saldos a favor, Cumplimiento de pagos, Objetivos, Reporte y Exportar). Un vendedor siempre ve su propia cartera y podés sumarle la de otros vendedores (por ejemplo, para cubrir vacaciones). Para administración podés elegir <em>Todas las carteras</em> o solo algunas. En Cumplimiento, cada recibo se asigna al vendedor del cliente en Cartera (o en la foto del mes si ya canceló todo).</li>
+<li><strong>Permisos:</strong> en cada usuario elegís qué <em>solapas</em> ve (Cartera, Cumplimiento, Objetivos, Ayuda) y qué <em>acciones</em> puede hacer (actualizar datos, exportar, reporte y mail, editar objetivos, mails de vendedores, usuarios). Si no tocás nada, usa los permisos predeterminados de su rol: el vendedor ve todas las solapas (solo con sus clientes) pero no actualiza, no exporta ni edita objetivos; administración puede todo. <em>Restablecer según rol</em> vuelve a esos valores.</li>
+<li>Los cambios de permisos rigen desde el próximo ingreso del usuario (se le cierra la sesión abierta). Si alguien queda sin ninguna solapa, ve un aviso para pedir acceso.</li>
+<li>Cuando se agregue una solapa nueva al panel, aparece como una opción más en Permisos para habilitarla usuario por usuario.</li>
 <li><strong>Cambiar mi clave:</strong> cualquier usuario, con el ícono de llave al lado de su nombre (arriba a la derecha).</li>
 </ul>
 <p class="muted">Técnico: las claves se encriptan en Supabase (bcrypt) dentro de la función <code>secure-write</code>; el panel nunca las guarda. Si al abrir Usuarios aparece “Falta actualizar la función secure-write”, hay que pegar la versión nueva de la función y correr el SQL de instalación.</p>
@@ -914,8 +930,8 @@ tr:hover td{background:var(--bg3)}
 
 <!-- MODAL USUARIOS -->
 <div class="modal-bg" id="modal-usuarios">
-  <div class="modal" style="width:860px">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h2><i class="ti ti-users" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i>Usuarios y claves</h2><button class="btn" id="usr-cerrar">Cerrar</button></div>
+  <div class="modal" style="width:980px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h2><i class="ti ti-users" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i>Usuarios y permisos</h2><button class="btn" id="usr-cerrar">Cerrar</button></div>
     <div class="modal-sub" style="margin-top:6px">Alta, baja y cambio de clave de quienes entran al panel. Un usuario <strong>vendedor</strong> solo ve los clientes del vendedor asignado (tiene que escribirse igual que en Cartera). Las claves se guardan encriptadas: nadie puede verlas, solo cambiarlas. <span class="help-link" data-ayuda="a-usuarios">Ver instructivo ›</span></div>
     <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
       <input type="text" id="usr-buscar" placeholder="Buscar por nombre, usuario, vendedor o mail…" style="flex:1;min-width:220px">
@@ -932,6 +948,13 @@ tr:hover td{background:var(--bg3)}
         <div><label id="usr-f-pass-lbl">Clave inicial</label><div style="display:flex;gap:6px"><input type="password" id="usr-f-pass" autocomplete="new-password" style="flex:1"><button class="btn" id="usr-f-gen" type="button" title="Generar una clave al azar">Generar</button></div></div>
       </div>
       <label style="display:flex;align-items:center;gap:8px;margin-top:12px;cursor:pointer"><input type="checkbox" id="usr-f-activo" style="width:auto"> Activo (puede ingresar)</label>
+      <div class="perm-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><strong style="font-size:12.5px">Permisos: qué puede ver y hacer</strong><button class="link-btn" type="button" id="usr-f-perm-reset" title="Vuelve a los permisos predeterminados del rol elegido">Restablecer según rol</button></div>
+        <div class="perm-tit" style="margin-top:8px">Cartera que ve (en todas las solapas)</div>
+        <div id="usr-f-cartera"></div>
+        <div class="perm-grid"><div><div class="perm-tit">Solapas que ve</div><div id="usr-f-perm-solapa"></div></div><div><div class="perm-tit">Acciones</div><div id="usr-f-perm-accion"></div></div></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:6px">Un usuario con rol <em>vendedor</em> siempre ve su propia cartera; podés sumarle la de otros vendedores. Los cambios de permisos rigen desde su próximo ingreso (se le cierra la sesión abierta).</div>
+      </div>
       <div id="usr-f-err" style="color:var(--red);font-size:12.5px;min-height:18px;margin-top:6px"></div>
       <div style="display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="usr-f-cancel">Cancelar</button><button class="btn btn-yellow" id="usr-f-guardar">Guardar</button></div>
     </div>
@@ -1375,12 +1398,35 @@ function updateClearBtn(){
   document.getElementById('btn-clear').style.display=has?'inline-flex':'none';
 }
 
+
+// ===================== CARTERA VISIBLE POR USUARIO =====================
+// permisos.cartera: 'todos' o lista de vendedores. Un usuario con rol vendedor SIEMPRE ve su propia
+// cartera (vendedor asignado) + las que se le agreguen. Sin dato: vendedor = solo la suya; resto = todas.
+function carteraDe(u){
+  if(!u)return null;
+  const p=u.permisos&&typeof u.permisos==='object'?u.permisos:{};
+  let c=p.cartera;
+  if(c===undefined||c===null)c=u.rol==='vendedor'?[]:'todos';
+  if(c==='todos')return null;
+  const set=new Set((Array.isArray(c)?c:[]).map(normCli));
+  if(u.rol==='vendedor'&&u.vendedor_nombre)set.add(normCli(u.vendedor_nombre));
+  return set;
+}
+// currentUser se declara más abajo en el script: se lee con try para no fallar si todavía no existe
+function usrActual(){try{return currentUser;}catch(_){return null;}}
+function carteraRestringida(){return carteraDe(usrActual());}
+function veVendedor(v){const u=usrActual();if(!u)return true;const s=carteraDe(u);return !s||s.has(normCli(v||'Sin asignar'));}
+function veCliente(c,i){return veVendedor((i!==undefined?getVend(i):c.vendedor)||'Sin asignar');}
+function vendedoresVisiblesLista(){const s=carteraRestringida();return s?[...s]:null;}
+
 function fillVendedorFilter(){
+  const visF=usrActual()?vendedoresVisiblesLista():null;
   ['f-vendedor','rep-vendedor'].forEach(sid=>{
     const sel=document.getElementById(sid);const cur=sel.value;
-    const vs=new Set();clientes.forEach((_,i)=>{const v=getVend(i);if(v)vs.add(v);});
-    sel.innerHTML='<option value="">Todos los vendedores</option>';
+    const vs=new Set();clientes.forEach((_,i)=>{const v=getVend(i);if(v&&veVendedor(v))vs.add(v);});
+    sel.innerHTML='<option value="">'+(carteraRestringida()?'Todas mis carteras':'Todos los vendedores')+'</option>';
     [...vs].sort().forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;if(v===cur)o.selected=true;sel.appendChild(o);});
+    if(visF&&visF.length===1){const o=[...sel.options].find(x=>normCli(x.value)===visF[0]);if(o)sel.value=o.value;}
   });
 }
 
@@ -1397,7 +1443,7 @@ function getFiltered(){
     } else if(fe&&!(c.facturas||[]).some(f=>f.emp===fe))return null;
     if(fv&&getVend(i)!==fv)return null;
     // Vendedor only sees their clients
-    if(currentUser&&currentUser.rol==='vendedor'&&c.vendedor!==currentUser.vendedor_nombre)return null;
+    if(!veCliente(c,i))return null;
     if(activeFilter==='gestion'){if(!(gestiones[i]&&gestiones[i].nota))return null;}
     else if(activeFilter&&tramo(c.dias_vencidos)!==activeFilter)return null;
     let view=c;
@@ -1448,8 +1494,8 @@ function deudaPorEmpresaList(list){
 }
 
 function updateMetrics(){
-  const isVendedor=currentUser&&currentUser.rol==='vendedor';
-  const all=isVendedor?clientes.filter(c=>c.vendedor===currentUser.vendedor_nombre):clientes;
+  const isVendedor=!!carteraRestringida();
+  const all=isVendedor?clientes.filter((c,i)=>veCliente(c,i)):clientes;
   const byT=t=>all.filter(c=>tramo(c.dias_vencidos)===t);
   const sumD=arr=>arr.reduce((s,c)=>s+c.deuda,0);
   const allD=sumD(all);
@@ -1469,7 +1515,7 @@ function updateMetrics(){
   const med=byT('Mora media');document.getElementById('m-med').textContent=med.length;document.getElementById('m-med-d').textContent=fmtN(sumD(med));
   const temp=byT('Mora temprana');document.getElementById('m-temp').textContent=temp.length;document.getElementById('m-temp-d').textContent=fmtN(sumD(temp));
   const prev=byT('Preventivo');document.getElementById('m-prev').textContent=prev.length;document.getElementById('m-prev-d').textContent=fmtN(sumD(prev));
-  const myGest=isVendedor?Object.entries(gestiones).filter(([i,g])=>g.nota&&clientes[parseInt(i)]&&clientes[parseInt(i)].vendedor===currentUser.vendedor_nombre).length:gestionesCount;
+  const myGest=isVendedor?Object.entries(gestiones).filter(([i,g])=>g.nota&&clientes[parseInt(i)]&&veCliente(clientes[parseInt(i)],parseInt(i))).length:gestionesCount;
   document.getElementById('m-gest').textContent=myGest;
 }
 
@@ -1503,7 +1549,7 @@ function renderSaldosTable(){
   const q=document.getElementById('search').value.toLowerCase();
   const fe=document.getElementById('f-empresa').value;
   const fv=document.getElementById('f-vendedor').value;
-  let data=(isVendedor?saldosFavor.filter(c=>c.vendedor===currentUser.vendedor_nombre):saldosFavor).filter(c=>{
+  let data=saldosFavor.filter(c=>veCliente(c)).filter(c=>{
     if(q&&!c.nombre.toLowerCase().includes(q))return false;
     if(fe&&c.empresa!==fe)return false;
     if(fv&&c.vendedor!==fv)return false;
@@ -1703,6 +1749,7 @@ function buildReporte(filterVend){
   const map={};
   clientes.forEach((c,i)=>{
     const v=getVend(i)||'Sin asignar';
+    if(!veVendedor(v))return;
     if(filterVend&&v!==filterVend)return;
     if(!map[v])map[v]={clientes:[],deuda:0,crit:0,med:0,temp:0,prev:0,conGestion:0,estancados:0,estancadosDeuda:0};
     map[v].clientes.push({c,i});map[v].deuda+=c.deuda;
@@ -1719,8 +1766,7 @@ function buildReporte(filterVend){
 
 // --- SALDOS A FAVOR ---
 function renderSaldosBtn(){
-  const isVendedor=currentUser&&currentUser.rol==='vendedor';
-  const visibles=isVendedor?saldosFavor.filter(c=>c.vendedor===currentUser.vendedor_nombre):saldosFavor;
+  const visibles=saldosFavor.filter(c=>veCliente(c));
   const btn=document.getElementById('btn-saldos');
   btn.style.display=visibles.length?'inline-flex':'none';
   btn.textContent='';
@@ -1732,8 +1778,7 @@ function renderSaldosBtn(){
   document.getElementById('m-saldos-d').textContent=fmtN(visibles.reduce((s,c)=>s+Math.abs(c.deuda),0));
 }
 function renderSaldosModal(){
-  const isVendedor=currentUser&&currentUser.rol==='vendedor';
-  const visibles=(isVendedor?saldosFavor.filter(c=>c.vendedor===currentUser.vendedor_nombre):saldosFavor).slice().sort((a,b)=>a.deuda-b.deuda);
+  const visibles=saldosFavor.filter(c=>veCliente(c)).slice().sort((a,b)=>a.deuda-b.deuda);
   const el=document.getElementById('saldos-content');
   if(!visibles.length){el.innerHTML='<div style="color:var(--text3);text-align:center;padding:2rem">No hay saldos a favor cargados.</div>';return;}
   const total=visibles.reduce((s,c)=>s+c.deuda,0);
@@ -1786,11 +1831,10 @@ let calMonth=new Date().getMonth(),calYear=new Date().getFullYear(),calSelDate=n
 function getProyecciones(){
   // Devuelve items: si hay compromiso de pago cargado, usa esa fecha/monto.
   // Si no, proyecta cada factura por su propia fecha de vencimiento.
-  const isVendedor=currentUser&&currentUser.rol==='vendedor';
   const fEmp=document.getElementById('cal-empresa')?document.getElementById('cal-empresa').value:'';
   const out=[];
   clientes.forEach((c,idx)=>{
-    if(isVendedor&&c.vendedor!==currentUser.vendedor_nombre)return;
+    if(!veCliente(c,idx))return;
     if(fEmp&&c.empresa!==fEmp)return;
     const g=gestiones[idx];
     if(g&&g.fecha_comp){
@@ -1939,8 +1983,10 @@ function renderReporte(){
 
 document.getElementById('btn-reporte').addEventListener('click',()=>{
   // Vendedor only sees their own report
-  if(currentUser&&currentUser.rol==='vendedor'){
-    document.getElementById('rep-vendedor').value=currentUser.vendedor_nombre;
+  const visR=vendedoresVisiblesLista();
+  if(currentUser&&visR&&visR.length===1){
+    const opt=[...document.getElementById('rep-vendedor').options].find(o=>normCli(o.value)===visR[0]);
+    if(opt)document.getElementById('rep-vendedor').value=opt.value;
     document.getElementById('rep-vendedor').disabled=true;
   } else {
     document.getElementById('rep-vendedor').disabled=false;
@@ -2109,7 +2155,7 @@ document.getElementById('btn-rep-mail').addEventListener('click',async()=>{
   mvVendedorActual=fv;
   await loadMailsVendedores(true);
   let mailV=mailDeVendedor(fv);
-  if(!mailV&&puedeEditarObj()){try{if(!usuariosAdmin.length)await cargarUsuariosAdmin();const u=usuariosAdmin.find(x=>x.activo!==false&&x.email&&normCli(x.vendedor_nombre)===normCli(fv));if(u)mailV=u.email;}catch(_){}}
+  if(!mailV&&puede('usuarios')){try{if(!usuariosAdmin.length)await cargarUsuariosAdmin();const u=usuariosAdmin.find(x=>x.activo!==false&&x.email&&normCli(x.vendedor_nombre)===normCli(fv));if(u)mailV=u.email;}catch(_){}}
   document.getElementById('mv-para').value=mailV;
   document.getElementById('mv-para-hint').innerHTML=mailV?'Mail cargado en <em>Mails de vendedores</em>.':'Este vendedor no tiene mail cargado. Si lo escribís acá, queda guardado para la próxima.';
   document.getElementById('mv-asunto').value='Informe semanal de cobranzas — '+fv+' — '+hoy;
@@ -2122,7 +2168,7 @@ document.getElementById('mv-abrir').addEventListener('click',()=>{
   const para=document.getElementById('mv-para').value.trim();
   const asunto=document.getElementById('mv-asunto').value;
   // Si se escribió un mail nuevo para el vendedor, se recuerda (solo admin)
-  if(mvVendedorActual&&para&&mailsValidos(para)&&normMails(para)!==normMails(mailDeVendedor(mvVendedorActual))&&puedeEditarObj()){
+  if(mvVendedorActual&&para&&mailsValidos(para)&&normMails(para)!==normMails(mailDeVendedor(mvVendedorActual))&&puede('mails_vendedores')){
     const v=mvVendedorActual;guardarMailsVendedores(m=>{m[v]=normMails(para);}).then(()=>showToast('Mail de '+v+' guardado ✓')).catch(()=>{});
   }
   const cuerpo=document.getElementById('mv-cuerpo').value;
@@ -2271,7 +2317,7 @@ document.getElementById('btn-apply').addEventListener('click',()=>{
 // Export
 document.getElementById('btn-export').addEventListener('click',()=>{
   const rows=[['Cliente','Ciudad','Zona','Empresa','Vendedor','Estado','Días vencidos','Deuda total','Facturas','Email','Teléfono','Nota gestión','Fecha compromiso']];
-  clientes.forEach((c,i)=>{const g=gestiones[i]||{};const facs=c.facturas.map(f=>f.num+' '+fmtF(f.monto)+' vto:'+f.vto).join(' | ');rows.push([c.nombre,c.ciudad||'',c.zona||'',c.empresa,getVend(i),tramo(c.dias_vencidos),c.dias_vencidos,c.deuda,facs,getEmail(i),getTel(i),g.nota||'',g.fecha_comp||'']);});
+  clientes.forEach((c,i)=>{if(!veCliente(c,i))return;const g=gestiones[i]||{};const facs=c.facturas.map(f=>f.num+' '+fmtF(f.monto)+' vto:'+f.vto).join(' | ');rows.push([c.nombre,c.ciudad||'',c.zona||'',c.empresa,getVend(i),tramo(c.dias_vencidos),c.dias_vencidos,c.deuda,facs,getEmail(i),getTel(i),g.nota||'',g.fecha_comp||'']);});
   const wb=XLSX.utils.book_new();const ws=XLSX.utils.aoa_to_sheet(rows);
   ws['!cols']=[{wch:30},{wch:18},{wch:14},{wch:14},{wch:20},{wch:14},{wch:12},{wch:16},{wch:50},{wch:28},{wch:14},{wch:40},{wch:15}];
   XLSX.utils.book_append_sheet(wb,ws,'Cobranzas');
@@ -2288,10 +2334,23 @@ document.getElementById('btn-clear').addEventListener('click',()=>{
 ['search','f-empresa','f-vendedor','f-estado','f-sort'].forEach(id=>{document.getElementById(id).addEventListener(id==='search'?'input':'change',()=>{page=1;updateClearBtn();render();});});
 
 // --- Construcción de pagosCliente a partir del detalle mensual (permite filtrar por mes) ---
+// Vendedor de un cliente para filtrar Cumplimiento: cartera actual o, si ya no está, la foto del mes
+function vendedorClienteCumpl(nombre){
+  const k=normCli(nombre);
+  if(!vendedorClienteCumpl._map||vendedorClienteCumpl._n!==clientes.length){
+    const m={};
+    try{Object.values(objFotoCache||{}).forEach(f=>{if(f&&f.clientes)f.clientes.forEach(([n,v])=>{m[normCli(n)]=v;});});}catch(_){}
+    clientes.forEach((c,i)=>{const kk=normCli(c.nombre);if(kk)m[kk]=getVend(i)||'Sin asignar';});
+    vendedorClienteCumpl._map=m;vendedorClienteCumpl._n=clientes.length;
+  }
+  return vendedorClienteCumpl._map[k]||'Sin asignar';
+}
+function veClienteCumpl(nombre){return !carteraRestringida()||veVendedor(vendedorClienteCumpl(nombre));}
 function buildPagosCliente(mes){
   const map={};
   pagosMensual.forEach(r=>{
     if(mes&&r.m!==mes)return;
+    if(!veClienteCumpl(r.c))return;
     if(!map[r.c])map[r.c]={cliente:r.c,total_pagado:0,total_proceso:0,n_recibos:0,metodo_monto:{},n_cheques_dif:0,monto_cheques_dif:0,plazos:[],ultima_fecha:null,emp_monto:{}};
     const a=map[r.c];
     a.total_pagado+=r.p;a.total_proceso+=r.e;a.n_recibos+=r.n;
@@ -2356,7 +2415,7 @@ function diasEntre(f1,f2){
 }
 
 function conciliarTransferencias(mes, creditos){
-  const transf=recibosDetalle.filter(t=>t.met==='Transferencia'&&(!mes||t.f.slice(0,7)===mes));
+  const transf=recibosDetalle.filter(t=>t.met==='Transferencia'&&(!mes||t.f.slice(0,7)===mes)&&veClienteCumpl(t.c));
   const pool=creditos.map(c=>({...c,usado:false}));
   const verificadas=[],sinVerificar=[];
   transf.forEach(t=>{
@@ -2486,7 +2545,7 @@ function isoLocal(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(
 function hoyISO(){return isoLocal(new Date());}
 function mesHoyKey(){return hoyISO().slice(0,7);}
 function esVendedorRol(){return !!(currentUser&&currentUser.rol==='vendedor');}
-function puedeEditarObj(){return !!currentUser&&currentUser.rol!=='vendedor';}
+function puedeEditarObj(){return puede('editar_objetivos');}
 const MESES_CORTO=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MESES_LARGO=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 function nombreMesObj(k){const[y,m]=k.split('-');return MESES_LARGO[parseInt(m)-1]+' '+y;}
@@ -2658,10 +2717,9 @@ function setPct(cfg,scope,v,t,val){
 // Base del objetivo: la foto (si existe) o la cartera de hoy (provisorio / referencial)
 function baseObjetivo(foto){
   const porVT={},mapV={},mapT={};
-  const soloV=esVendedorRol()?currentUser.vendedor_nombre:null;
   const add=(nom,v,t,d)=>{
     const k=normCli(nom);if(k){mapV[k]=v;mapT[k]=t;}
-    if(soloV&&v!==soloV)return;
+    if(!veVendedor(v))return;
     if(!porVT[v])porVT[v]=ceroTramos();
     porVT[v][t]=(porVT[v][t]||0)+(d||0);
   };
@@ -2675,13 +2733,12 @@ function vendedorDeCliente(base,mapHoy,nombre){const k=normCli(nombre);return ba
 // Se asigna con el vendedor de la FOTO: si el cliente canceló todo y ya no está en Cartera, igual suma.
 function cobradoMesDetalle(mesKey,base){
   const mapHoy=buildClienteVendedorMap();
-  const soloV=esVendedorRol()?currentUser.vendedor_nombre:null;
   const porV={},porVT={};
   recibosDetalle.forEach(r=>{
     if((r.f||'').slice(0,7)!==mesKey)return;
     if(!esCobrado(r.edo,r.met))return;
     const v=vendedorDeCliente(base,mapHoy,r.c);
-    if(soloV&&v!==soloV)return;
+    if(!veVendedor(v))return;
     const t=base.mapT[normCli(r.c)]||'Fuera de la foto';
     porV[v]=(porV[v]||0)+(r.m||0);
     if(!porVT[v])porVT[v]={...ceroTramos(),'Fuera de la foto':0};
@@ -2699,13 +2756,12 @@ function rangoSemanaActual(){
 function cobradoSemanaPorVendedor(base){
   const{desde,hasta}=rangoSemanaActual();
   const mapHoy=buildClienteVendedorMap();
-  const soloV=esVendedorRol()?currentUser.vendedor_nombre:null;
   const out={};
   recibosDetalle.forEach(r=>{
     if(r.f<desde||r.f>hasta)return;
     if(!esCobrado(r.edo,r.met))return;
     const v=vendedorDeCliente(base,mapHoy,r.c);
-    if(soloV&&v!==soloV)return;
+    if(!veVendedor(v))return;
     out[v]=(out[v]||0)+(r.m||0);
   });
   return out;
@@ -2724,6 +2780,7 @@ function proyectadoSemanaPorVendedor(){
     const effISO=isoLocal(eff);
     if(effISO<desde||effISO>hasta)return;
     const v=clientes[it.idx]?(getVend(it.idx)||'Sin asignar'):'Sin asignar';
+    if(!veVendedor(v))return;
     out[v]=(out[v]||0)+it.monto;
     total+=it.monto;
   });
@@ -2732,13 +2789,12 @@ function proyectadoSemanaPorVendedor(){
 
 // --- Evolución semanal del cumplimiento dentro del mes seleccionado ---
 function evolucionSemanalMes(mesKey,objetivoTotal,base){
-  const soloV=esVendedorRol()?currentUser.vendedor_nombre:null;
   const mapHoy=buildClienteVendedorMap();
   const porSemana={};
   recibosDetalle.forEach(r=>{
     if((r.f||'').slice(0,7)!==mesKey)return;
     if(!esCobrado(r.edo,r.met))return;
-    if(soloV&&vendedorDeCliente(base,mapHoy,r.c)!==soloV)return;
+    if(!veVendedor(vendedorDeCliente(base,mapHoy,r.c)))return;
     const d=new Date(r.f+'T00:00:00');
     if(isNaN(d))return;
     const lunes=isoLocal(mondayOf(d));
@@ -2978,7 +3034,7 @@ async function renderObjetivos(){
 
   const saldoBase={};Object.entries(base.porVT).forEach(([v,st])=>{saldoBase[v]=TRAMOS_ORDEN.reduce((s,t)=>s+(st[t]||0),0);});
   const baseTotal=Object.values(saldoBase).reduce((s,x)=>s+x,0);
-  const nClientesBase=foto?foto.clientes.filter(c=>!esVendedorRol()||c[1]===currentUser.vendedor_nombre).length:clientes.length;
+  const nClientesBase=foto?foto.clientes.filter(c=>veVendedor(c[1])).length:clientes.filter((c,i)=>veCliente(c,i)).length;
   const objetivoTotal=Object.entries(base.porVT).reduce((s,[v,st])=>s+objetivoVendedor(cfg,v,st).total,0);
   const semanasMes=semanasDelMes(objMesActual);
   const objetivoSemanal=objetivoTotal/semanasMes;
@@ -3037,7 +3093,7 @@ async function renderObjetivos(){
   renderObjEvolucion(objMesActual,objetivoTotal,base);
 
   // Publica el snapshot semanal en Supabase para que el cashflow (otro panel) lo pueda leer
-  if(!esVendedorRol()&&objMesActual===mesHoy){
+  if(!carteraRestringida()&&objMesActual===mesHoy){
     try{
       await fetch(SUPABASE_URL+'/rest/v1/'+SUPABASE_TABLE_OBJ+'?on_conflict=id',{
         method:'POST',
@@ -3078,6 +3134,7 @@ document.querySelectorAll('.obj-metric-nav').forEach(el=>{
 fillObjMesSelect();
 
 function switchMainView(view){
+  if(currentUser&&typeof solapasPermitidas==='function'){const vis=solapasPermitidas();if(!vis.includes(view)){if(!vis.length)return;view=vis[0];}}
   document.querySelectorAll('#main-tab-bar .tab').forEach(t=>t.classList.toggle('active',t.dataset.view===view));
   document.getElementById('main-content').style.display=view==='cartera'?'':'none';
   document.getElementById('view-cumplimiento').style.display=view==='cumplimiento'?'':'none';
@@ -3143,6 +3200,8 @@ function updateCuMetrics(){
 }
 
 function renderCumplimiento(){
+  vendedorClienteCumpl._map=null;
+  pagosCliente=buildPagosCliente(document.getElementById('cu-mes-filter').value);
   const data=getCuFiltered();
   updateCuMetrics();
   const mesSel=document.getElementById('cu-mes-filter');
@@ -3468,7 +3527,7 @@ function pintarMailsVend(){
     +'</tbody></table>';
 }
 document.getElementById('btn-rep-mails').addEventListener('click',async()=>{
-  if(!puedeEditarObj()){showToast('Solo administración puede editar los mails');return;}
+  if(!puede('mails_vendedores')){showToast('No tenés permiso para editar los mails');return;}
   mailsVendExtra=[];await loadMailsVendedores(true);pintarMailsVend();
   document.getElementById('modal-mails-vend').classList.add('open');
 });
@@ -3491,6 +3550,53 @@ document.getElementById('mails-vend-guardar').addEventListener('click',async()=>
   }catch(e){showToast('No se pudo guardar: '+e.message);}
 });
 
+
+// ===================== PERMISOS POR USUARIO =====================
+// Se guardan en usuarios.permisos (jsonb). Si un usuario no tiene permisos cargados, se usan los
+// predeterminados según su rol (así funcionaba antes). Para sumar una solapa nueva: agregarla a
+// PERMISOS_DEF con grupo 'solapa' y su data-view, y listo.
+const PERMISOS_DEF=[
+  {k:'tab_cartera',grupo:'solapa',view:'cartera',lbl:'Cartera',desc:'Deuda por cliente, gestiones, calendario',def:()=>true},
+  {k:'tab_cumplimiento',grupo:'solapa',view:'cumplimiento',lbl:'Cumplimiento de pagos',desc:'Recibos, medios de pago, plazos de cheque',def:()=>true},
+  {k:'tab_objetivos',grupo:'solapa',view:'objetivos',lbl:'Objetivos de cobranza',desc:'Objetivo del mes y cumplimiento por vendedor',def:()=>true},
+  {k:'tab_ayuda',grupo:'solapa',view:'ayuda',lbl:'Ayuda',desc:'Instructivo',def:()=>true},
+  {k:'actualizar',grupo:'accion',lbl:'Actualizar datos',desc:'Subir Excel de Odoo (cartera, contactos y recibos)',def:r=>r!=='vendedor'},
+  {k:'exportar',grupo:'accion',lbl:'Exportar a Excel',desc:'Descargar la cartera completa',def:r=>r!=='vendedor'},
+  {k:'reporte',grupo:'accion',lbl:'Reporte y mail semanal',desc:'Reporte por vendedor e informe por mail',def:()=>true},
+  {k:'editar_objetivos',grupo:'accion',lbl:'Editar objetivos',desc:'% por tipo de deudor, foto del mes, gastos a cubrir',def:r=>r!=='vendedor'},
+  {k:'mails_vendedores',grupo:'accion',lbl:'Mails de vendedores',desc:'Cargar/editar los mails del informe',def:r=>r!=='vendedor'},
+  {k:'usuarios',grupo:'accion',lbl:'Usuarios y permisos',desc:'Alta/baja de usuarios, claves y permisos',def:r=>r!=='vendedor'}
+];
+function permisosPorDefecto(rol){const o={};PERMISOS_DEF.forEach(p=>o[p.k]=!!p.def(rol));return o;}
+function permisosEfectivos(u){
+  const base=permisosPorDefecto(u&&u.rol);
+  const p=u&&u.permisos&&typeof u.permisos==='object'?u.permisos:null;
+  if(p)PERMISOS_DEF.forEach(d=>{if(typeof p[d.k]==='boolean')base[d.k]=p[d.k];});
+  return base;
+}
+function puede(k){if(!currentUser)return false;return !!permisosEfectivos(currentUser)[k];}
+function solapasPermitidas(){return PERMISOS_DEF.filter(p=>p.grupo==='solapa'&&puede(p.k)).map(p=>p.view);}
+function aplicarPermisos(){
+  const vis=solapasPermitidas();
+  document.querySelectorAll('#main-tab-bar .tab').forEach(t=>{t.style.display=vis.includes(t.dataset.view)?'':'none';});
+  const set=(id,ok)=>{const el=document.getElementById(id);if(el)el.style.display=ok?'':'none';};
+  set('btn-upload-trigger',puede('actualizar'));
+  set('cu-btn-upload',puede('actualizar'));
+  set('btn-export',puede('exportar'));
+  set('btn-reporte',puede('reporte'));
+  set('btn-rep-mails',puede('mails_vendedores'));
+  set('btn-usuarios',puede('usuarios'));
+  // Ayuda: los links "Ver instructivo" solo si tiene la solapa
+  document.querySelectorAll('[data-ayuda]').forEach(a=>a.style.display=puede('tab_ayuda')?'':'none');
+  const actual=vistaActual();
+  if(!vis.length){
+    ['main-content','view-cumplimiento','view-objetivos','view-ayuda'].forEach(id=>document.getElementById(id).style.display='none');
+    document.getElementById('sin-permisos').style.display='';
+  } else {
+    document.getElementById('sin-permisos').style.display='none';
+    if(!vis.includes(actual))switchMainView(vis[0]);
+  }
+}
 
 // ===================== USUARIOS (administración desde el panel) =====================
 // Todo pasa por la Edge Function secure-write (acciones list_usuarios / save_usuario / cambiar_mi_clave).
@@ -3516,13 +3622,13 @@ function pintarUsuarios(){
     .sort((a,b)=>(b.activo!==false)-(a.activo!==false)||String(a.nombre).localeCompare(String(b.nombre),'es'));
   if(!ls.length){wrap.innerHTML='<div style="color:var(--text3);font-size:12.5px;padding:8px 0">'+(usuariosAdmin.length?'Ningún usuario coincide.':'Todavía no hay usuarios.')+'</div>';return;}
   const vendCart=new Set(vendedoresCartera());
-  wrap.innerHTML='<table class="obj-cfg" style="min-width:640px"><thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Vendedor asignado</th><th>Mail</th><th>Estado</th><th></th></tr></thead><tbody>'
+  wrap.innerHTML='<table class="obj-cfg" style="min-width:780px"><thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Vendedor asignado</th><th>Mail</th><th>Permisos</th><th>Estado</th><th></th></tr></thead><tbody>'
     +ls.map(u=>{
       const act=u.activo!==false;
       const vWarn=u.rol==='vendedor'&&u.vendedor_nombre&&!vendCart.has(u.vendedor_nombre)?' <i class="ti ti-alert-triangle" style="color:var(--orange)" title="No coincide con ningún vendedor de la Cartera actual"></i>':'';
       return '<tr style="'+(act?'':'opacity:.5')+'"><td style="font-weight:600">'+escH(u.nombre)+(currentUser&&u.usuario===currentUser.usuario?' <span class="ped-tag" style="font-size:10px">vos</span>':'')+'</td>'
         +'<td><code style="font-size:12px">'+escH(u.usuario)+'</code></td><td>'+escH(u.rol||'')+'</td>'
-        +'<td>'+escH(u.vendedor_nombre||'—')+vWarn+'</td><td style="font-size:12px">'+escH(u.email||'—')+'</td>'
+        +'<td>'+escH(u.vendedor_nombre||'—')+vWarn+'</td><td style="font-size:12px">'+escH(u.email||'—')+'</td><td>'+resumenPermisos(u)+'</td>'
         +'<td>'+(act?'<span class="badge b-prev">Activo</span>':'<span class="badge b-ambas">Inactivo</span>')+'</td>'
         +'<td style="white-space:nowrap"><button class="link-btn" data-usr-edit="'+escH(u.usuario)+'">Editar</button></td></tr>';
     }).join('')+'</tbody></table>';
@@ -3543,13 +3649,51 @@ function abrirFormUsuario(u){
   document.getElementById('usr-f-pass').value='';
   document.getElementById('usr-f-pass-lbl').textContent=u?'Nueva clave (dejar vacío para no cambiarla)':'Clave inicial (mínimo 6 caracteres)';
   document.getElementById('usr-f-err').textContent='';
+  pintarPermisosForm(permisosEfectivos(u||{rol:sr.value}));
+  pintarCarteraForm(u);
   actualizarVendVisible();
   (u?document.getElementById('usr-f-nombre'):iu).focus();
+}
+function pintarPermisosForm(perm){
+  ['solapa','accion'].forEach(g=>{
+    document.getElementById('usr-f-perm-'+g).innerHTML=PERMISOS_DEF.filter(p=>p.grupo===g).map(p=>'<label class="perm-it"><input type="checkbox" data-perm="'+p.k+'"'+(perm[p.k]?' checked':'')+'><span>'+escH(p.lbl)+'<small>'+escH(p.desc)+'</small></span></label>').join('');
+  });
+}
+function pintarCarteraForm(u){
+  const rol=document.getElementById('usr-f-rol').value;
+  const propio=normCli(document.getElementById('usr-f-vend').value);
+  const p=u&&u.permisos&&typeof u.permisos==='object'?u.permisos:{};
+  let c=p.cartera;if(c===undefined||c===null)c=rol==='vendedor'?[]:'todos';
+  const sel=new Set(Array.isArray(c)?c.map(normCli):[]);
+  const todos=c==='todos';
+  const vends=vendedoresCartera();
+  document.getElementById('usr-f-cartera').innerHTML=
+    '<label class="perm-it"><input type="radio" name="usr-cart-modo" value="todos"'+(todos?' checked':'')+'><span>Todas las carteras<small>Ve todos los clientes de todos los vendedores</small></span></label>'
+    +'<label class="perm-it"><input type="radio" name="usr-cart-modo" value="lista"'+(todos?'':' checked')+'><span>Solo estas carteras<small>'+(rol==='vendedor'?'Su cartera propia siempre está incluida':'Elegí los vendedores')+'</small></span></label>'
+    +'<div class="cart-lista" style="'+(todos?'opacity:.4;pointer-events:none':'')+'">'
+    +vends.map(v=>{const k=normCli(v);const esProp=rol==='vendedor'&&k===propio;return '<label class="perm-it cart-it"><input type="checkbox" data-cart="'+escH(v)+'"'+((sel.has(k)||esProp)?' checked':'')+(esProp?' disabled':'')+'><span>'+escH(v)+(esProp?' <small style="display:inline">(propia)</small>':'')+'</span></label>';}).join('')
+    +'</div>';
+  document.querySelectorAll('input[name=usr-cart-modo]').forEach(r=>r.addEventListener('change',()=>{const l=document.querySelector('#usr-f-cartera .cart-lista');const t=document.querySelector('input[name=usr-cart-modo]:checked').value==='todos';l.style.opacity=t?'.4':'1';l.style.pointerEvents=t?'none':'';}));
+}
+function leerCarteraForm(){
+  const modo=(document.querySelector('input[name=usr-cart-modo]:checked')||{}).value;
+  if(modo==='todos')return 'todos';
+  return [...document.querySelectorAll('#usr-f-cartera [data-cart]')].filter(i=>i.checked&&!i.disabled).map(i=>i.dataset.cart);
+}
+function leerPermisosForm(){const o={};document.querySelectorAll('#usr-form [data-perm]').forEach(i=>o[i.dataset.perm]=i.checked);o.cartera=leerCarteraForm();return o;}
+function resumenPermisos(u){
+  const p=permisosEfectivos(u);
+  const sol=PERMISOS_DEF.filter(d=>d.grupo==='solapa'&&p[d.k]).map(d=>d.lbl.split(' ')[0]);
+  const acc=PERMISOS_DEF.filter(d=>d.grupo==='accion'&&p[d.k]).length;
+  const cs=carteraDe(u);
+  const cart=!cs?'<span class="perm-chip" style="color:var(--yellow)">todas las carteras</span>':'<span class="perm-chip" style="color:var(--yellow)" title="'+escH([...cs].join(', '))+'">'+(cs.size===1?'1 cartera':cs.size+' carteras')+'</span>';
+  return cart+(sol.length?sol.map(x=>'<span class="perm-chip">'+escH(x)+'</span>').join(''):'<span class="perm-chip" style="color:var(--red)">sin solapas</span>')
+    +'<span class="perm-chip" title="Acciones habilitadas">'+acc+' acciones</span>'+(u.permisos?'':' <span style="font-size:10px;color:var(--text3)">(según rol)</span>');
 }
 function actualizarVendVisible(){document.getElementById('usr-f-vend-wrap').style.opacity=document.getElementById('usr-f-rol').value==='vendedor'?'1':'.55';}
 function generarClave(){const c='abcdefghjkmnpqrstuvwxyz23456789';let s='';const r=crypto.getRandomValues(new Uint32Array(8));r.forEach(x=>s+=c[x%c.length]);return s;}
 document.getElementById('btn-usuarios').addEventListener('click',async()=>{
-  if(!puedeEditarObj())return;
+  if(!puede('usuarios'))return;
   document.getElementById('usr-form').hidden=true;
   document.getElementById('usr-tabla').innerHTML='<div style="color:var(--text3);font-size:12.5px">Cargando usuarios…</div>';
   document.getElementById('modal-usuarios').classList.add('open');
@@ -3559,7 +3703,9 @@ document.getElementById('btn-usuarios').addEventListener('click',async()=>{
 document.getElementById('usr-buscar').addEventListener('input',pintarUsuarios);
 document.getElementById('usr-nuevo').addEventListener('click',()=>abrirFormUsuario(null));
 document.getElementById('usr-tabla').addEventListener('click',e=>{const b=e.target.closest('[data-usr-edit]');if(b)abrirFormUsuario(usuariosAdmin.find(u=>u.usuario===b.dataset.usrEdit));});
-document.getElementById('usr-f-rol').addEventListener('change',actualizarVendVisible);
+document.getElementById('usr-f-rol').addEventListener('change',()=>{actualizarVendVisible();if(!usrEditando)pintarPermisosForm(permisosPorDefecto(document.getElementById('usr-f-rol').value));pintarCarteraForm(usrEditando?Object.assign({},usuariosAdmin.find(x=>x.usuario===usrEditando),{permisos:{cartera:leerCarteraForm()}}):{permisos:{}});});
+document.getElementById('usr-f-vend').addEventListener('change',()=>pintarCarteraForm({permisos:{cartera:leerCarteraForm()}}));
+document.getElementById('usr-f-perm-reset').addEventListener('click',()=>{pintarPermisosForm(permisosPorDefecto(document.getElementById('usr-f-rol').value));pintarCarteraForm({permisos:{}});});
 document.getElementById('usr-f-gen').addEventListener('click',()=>{const i=document.getElementById('usr-f-pass');i.value=generarClave();i.type='text';i.select();});
 document.getElementById('usr-f-cancel').addEventListener('click',()=>{document.getElementById('usr-form').hidden=true;});
 document.getElementById('usr-cerrar').addEventListener('click',()=>document.getElementById('modal-usuarios').classList.remove('open'));
@@ -3574,8 +3720,12 @@ document.getElementById('usr-f-guardar').addEventListener('click',async()=>{
     vendedor_nombre:document.getElementById('usr-f-vend').value.trim(),
     email:document.getElementById('usr-f-email').value.trim(),
     activo:document.getElementById('usr-f-activo').checked,
-    password:document.getElementById('usr-f-pass').value
+    password:document.getElementById('usr-f-pass').value,
+    permisos:leerPermisosForm()
   };
+  if(p.rol!=='vendedor'&&Array.isArray(p.permisos.cartera)&&!p.permisos.cartera.length){err.textContent='Elegí al menos una cartera o marcá "Todas las carteras".';return;}
+  if(!PERMISOS_DEF.some(d=>d.grupo==='solapa'&&p.permisos[d.k])&&p.activo&&!confirm('Este usuario no va a ver ninguna solapa. ¿Guardar igual?'))return;
+  if(currentUser&&p.usuario===currentUser.usuario&&!p.permisos.usuarios){err.textContent='No podés quitarte a vos mismo el permiso de Usuarios.';return;}
   if(p.email&&!mailsValidos(p.email)){err.textContent='El mail no es válido.';return;}
   if(p.email&&p.email.split(/[,;\s]+/).filter(Boolean).length>1){err.textContent='Un solo mail por usuario (para sumar un supervisor usá Reporte → Mails de vendedores).';return;}
   const btn=document.getElementById('usr-f-guardar');btn.disabled=true;btn.textContent='Guardando…';
@@ -3647,19 +3797,15 @@ function showApp(){
   document.getElementById('user-badge').style.display='flex';
   document.getElementById('user-display').innerHTML='<strong>'+currentUser.nombre+'</strong>&nbsp;<span style="background:var(--yellow-dim);color:var(--yellow);padding:1px 7px;border-radius:99px;font-size:11px">'+currentUser.rol+'</span>';
   // If vendedor, filter toolbar
-  if(currentUser.rol==='vendedor'){
-    document.getElementById('f-vendedor').value=currentUser.vendedor_nombre;
-    document.getElementById('f-vendedor').disabled=true;
-    document.getElementById('f-vendedor').style.opacity='0.5';
-    // Hide update button
-    document.getElementById('btn-upload-trigger').style.display='none';
-    activeFilter='';
-    page=1;
+  fillVendedorFilter();
+  const visC=vendedoresVisiblesLista();
+  if(visC&&visC.length===1){
+    const fv=document.getElementById('f-vendedor');const opt=[...fv.options].find(o=>normCli(o.value)===visC[0]);
+    if(opt)fv.value=opt.value;fv.disabled=true;fv.style.opacity='0.5';
   }
-  document.getElementById('hero-label').textContent=currentUser.rol==='vendedor'?'Mi cartera':'Deuda total en cartera';
-  document.getElementById('btn-export').style.display=currentUser.rol==='vendedor'?'none':'';
-  document.getElementById('btn-rep-mails').style.display=currentUser.rol==='vendedor'?'none':'';
-  document.getElementById('btn-usuarios').style.display=currentUser.rol==='vendedor'?'none':'';
+  if(visC){activeFilter='';page=1;}
+  document.getElementById('hero-label').textContent=visC?(visC.length===1?'Mi cartera':'Mis carteras ('+visC.length+' vendedores)'):'Deuda total en cartera';
+  aplicarPermisos();
   document.getElementById('notif-wrap').style.display='';
   renderSaldosBtn();
   document.getElementById('ped-fab').style.display='';
@@ -3691,6 +3837,8 @@ function logout(){
   document.getElementById('f-vendedor').disabled=false;
   document.getElementById('f-vendedor').style.opacity='1';
   document.getElementById('btn-upload-trigger').style.display='';
+  document.querySelectorAll('#main-tab-bar .tab').forEach(t=>t.style.display='');
+  document.getElementById('sin-permisos').style.display='none';
 }
 
 async function doLogin(){
