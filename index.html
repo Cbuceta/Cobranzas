@@ -358,6 +358,17 @@ th.th-ord{cursor:pointer;user-select:none}
 th.th-ord:hover{color:var(--text)}
 th.th-on{color:var(--yellow)!important}
 .ord-ic{font-size:10px;opacity:.7}
+.calc-tip{position:fixed;z-index:400;background:#151515;border:1px solid var(--yellow-dim2);border-left:3px solid var(--yellow);border-radius:10px;padding:10px 14px;box-shadow:0 10px 30px rgba(0,0,0,.6);font-size:12.5px;color:var(--text2);line-height:1.5;pointer-events:auto}
+.calc-tip p{margin:4px 0}
+.calc-tip strong{color:var(--text)}
+.calc-tip-h{font-size:11px;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.calc-row{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-bottom:1px dashed #333}
+.calc-row span:last-child{color:var(--text);font-weight:600;white-space:nowrap}
+.calc-row.calc-tot{border-bottom:0;border-top:1px solid var(--border2);margin-top:2px;padding-top:5px}
+.calc-row.calc-tot span{color:var(--yellow2);font-weight:800}
+.calc-nota{font-size:11.5px;color:var(--text3)}
+.calc-ic{font-size:12px;color:var(--text3);cursor:help;vertical-align:-1px;display:inline-block;min-width:12px}
+[data-calc]:hover .calc-ic{color:var(--yellow)}
 </style>
 </head>
 <body>
@@ -639,10 +650,10 @@ th.th-on{color:var(--yellow)!important}
   </div>
 
   <div class="metrics">
-    <div class="metric m-all obj-metric-nav" data-view="cumplimiento" style="cursor:pointer" title="Ver detalle en Cumplimiento de pagos"><div class="metric-label">Objetivo del mes</div><div class="metric-value" id="obj-m-objetivo">$0</div></div>
-    <div class="metric m-prev obj-metric-nav" data-view="cumplimiento" style="cursor:pointer" title="Ver detalle en Cumplimiento de pagos"><div class="metric-label">Cobrado real (mes, acumulado)</div><div class="metric-value" id="obj-m-cobrado">$0</div><div class="metric-sub" id="obj-m-pct">0% cumplido</div></div>
-    <div class="metric m-temp obj-metric-nav" data-view="cumplimiento" style="cursor:pointer" title="Ver detalle en Cumplimiento de pagos"><div class="metric-label">Cobrado esta semana</div><div class="metric-value" id="obj-m-semana">$0</div><div class="metric-sub" id="obj-m-semana-rango"></div></div>
-    <div class="metric m-crit obj-metric-nav" data-view="cumplimiento" style="cursor:pointer" title="Ver detalle en Cumplimiento de pagos"><div class="metric-label">A cobrar esta semana (proyectado)</div><div class="metric-value" id="obj-m-proyectado">$0</div><div class="metric-sub">clic para ver detalle en Cumplimiento ›</div></div>
+    <div class="metric m-all obj-metric-nav" data-view="cumplimiento" style="cursor:pointer"><div class="metric-label">Objetivo del mes</div><div class="metric-value" id="obj-m-objetivo">$0</div></div>
+    <div class="metric m-prev obj-metric-nav" data-view="cumplimiento" style="cursor:pointer"><div class="metric-label">Cobrado real (mes, acumulado)</div><div class="metric-value" id="obj-m-cobrado">$0</div><div class="metric-sub" id="obj-m-pct">0% cumplido</div></div>
+    <div class="metric m-temp obj-metric-nav" data-view="cumplimiento" style="cursor:pointer"><div class="metric-label">Cobrado esta semana</div><div class="metric-value" id="obj-m-semana">$0</div><div class="metric-sub" id="obj-m-semana-rango"></div></div>
+    <div class="metric m-crit obj-metric-nav" data-view="cumplimiento" style="cursor:pointer"><div class="metric-label">A cobrar esta semana (proyectado)</div><div class="metric-value" id="obj-m-proyectado">$0</div><div class="metric-sub">clic para ver detalle en Cumplimiento ›</div></div>
   </div>
 
   <div class="section-title plegable" data-plegar="obj-vend-wrap" style="cursor:pointer">OBJETIVO POR VENDEDOR <span class="pleg-ic" style="text-transform:none;letter-spacing:0;font-weight:600;color:var(--yellow)"></span></div>
@@ -722,6 +733,7 @@ th.th-on{color:var(--yellow)!important}
 <li><strong>Archivo:</strong> sirve el listado de <em>Pagos</em> de Odoo (account.payment) exportado con títulos — por ejemplo con las columnas Cliente/proveedor, Diario, Estado, Fecha, Número, Total Pago y Método de pago (puede venir agrupado por mes). Así no trae fechas de cheques, por lo que esos recibos no suman al plazo de cheque. También sirve el formato con líneas de cheques, columnas en este orden: A fecha · B número · C diario (dice SPL/SPOTSLINE y CHEQUE/EFECTIVO/CAJA) · D (no se usa) · E cliente · F estado · G importe · H fecha del cheque · I nº cheque · J banco · K importe del cheque. El detalle está en <em>Administrar recibos</em>.</li>
 <li><strong>Sumar recibos nuevos:</strong> antes de guardar muestra una vista previa (recibos nuevos, repetidos que se ignoran, filas con problemas, fechas y totales). Si el archivo no parece de recibos, avisa en rojo con el formato correcto.</li>
 <li><strong>Administrar recibos:</strong> lista cada carga (archivo, quién, cuándo, cuántos recibos) con <em>Deshacer esta carga</em>. Las cargas hechas antes de esta versión aparecen como “sin identificar”, agrupadas por mes, para borrar las que estén mal. También: borrar recibos con problemas, <em>Deshacer el último cambio</em> y <em>Volver a la base</em> (deja solo los recibos originales del panel, hasta el 15/09/2026).</li>
+<li><strong>Período de recibos:</strong> en <em>Administrar recibos</em> elegís desde qué mes se usan (por ejemplo, desde septiembre 2026). Los anteriores se borran del panel y las próximas cargas los ignoran solos. Se puede deshacer con <em>Deshacer el último cambio</em>.</li>
 </ul>
 
 <h3 id="a-plazo">Plazo prom. de cheque: qué fechas compara</h3>
@@ -823,6 +835,9 @@ th.th-on{color:var(--yellow)!important}
 <li><strong>Pegar respuesta de Claude</strong>: se toman las líneas con formato <code>#número | Estado | qué se hizo</code> y se actualiza cada pedido.</li>
 <li>También podés responder a mano y cambiar el estado (Pendiente, En curso, Resuelto, Descartado).</li>
 </ol>
+
+<h2 id="a-calc">¿Cómo se calcula cada número?</h2>
+<p>Pasá el mouse por cualquier número con el ícono <i class="ti ti-info-circle"></i> (o tocá el ícono en el celular) y aparece la explicación con la cuenta hecha con los valores reales: objetivo por tipo de deudor, qué recibos suman al cobrado y cuáles no, objetivo semanal, lo proyectado de la semana, y las tarjetas de Cartera y Cumplimiento.</p>
 
 <h2 id="a-faq">6. Preguntas frecuentes</h2>
 <p><strong>¿Por qué el objetivo no bajó si un cliente pagó?</strong> Porque es fijo: se calcula con la foto del primer día hábil. Lo que sube es el cobrado.</p>
@@ -1236,7 +1251,7 @@ async function loadPagosDesdeSupabase(){
     if(!row || !row.valor || !row.valor.mensual) return false;
     pagosMensual = row.valor.mensual;
     recibosDetalle = row.valor.detalle || recibosDetalle;
-    try{ recibosCargas = row.valor.cargas || []; pagosMensual = mensualDesdeDetalle(recibosDetalle); }catch(_){}
+    try{ recibosCargas = row.valor.cargas || []; recibosDesde = row.valor.desde || ''; recibosDetalle = recibosDetalle.filter(enPeriodo); pagosMensual = mensualDesdeDetalle(recibosDetalle); }catch(_){}
     recalcPagosMensualEfectivo();
     pagosCliente = buildPagosCliente(document.getElementById('cu-mes-filter')?document.getElementById('cu-mes-filter').value:'');
     fillMesFilter();
@@ -1249,7 +1264,7 @@ async function savePagosASupabase(){
     await fetch(SUPABASE_URL+'/rest/v1/'+SUPABASE_TABLE_PAGOS+'?on_conflict=id',{
       method:'POST',
       headers:{...SUPABASE_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
-      body:JSON.stringify({id:'actual',valor:{mensual:pagosMensual,detalle:recibosDetalle,cargas:(()=>{try{return recibosCargas;}catch(_){return [];}})()},updated_at:new Date().toISOString()})
+      body:JSON.stringify({id:'actual',valor:{mensual:pagosMensual,detalle:recibosDetalle,cargas:(()=>{try{return recibosCargas;}catch(_){return [];}})(),desde:(()=>{try{return recibosDesde;}catch(_){return '';}})()},updated_at:new Date().toISOString()})
     });
   }catch(e){ console.error('Error guardando recibos en Supabase:', e); showToast('No se pudo publicar para el equipo — revisá que exista la tabla "pagos_cumplimiento".'); }
 }
@@ -1257,6 +1272,7 @@ let recibosDetalle = [{"f":"2025-05-16","c":"ILUNOR  SRL","e":"SPL","m":243819,"
 recalcPagosMensualEfectivo();
 // Base incluida en el panel (antes de mezclar con Supabase): se usa para limpiar cargas erróneas
 const PAGOS_BASE=JSON.parse(JSON.stringify(pagosMensual));
+const RECIBOS_BASE_DET=recibosDetalle.slice();
 const RECIBOS_BASE_MAX=recibosDetalle.reduce((m,r)=>r.f>m?r.f:m,'');
 let cuPage = 1;
 const CU_PER = 25;
@@ -3231,6 +3247,7 @@ async function renderObjetivos(){
 
   renderObjEvolucion(objMesActual,objetivoTotal,base);
   aplicarPlegados();
+  try{explicarObjetivos({cfg,base,objetivoTotal,semanasMes,objetivoSemanal,cobradoMesTotal,cobradoSemanaTotal,pctMes,pctSemana,foto,desde,hasta,baseTotal});}catch(e){console.warn('explicar:',e);}
 
   // Publica el snapshot semanal en Supabase para que el cashflow (otro panel) lo pueda leer
   if(!carteraRestringida()&&objMesActual===mesHoy){
@@ -4606,6 +4623,8 @@ document.getElementById('fe-ok').addEventListener('click',async()=>{
 // Base = recibos que venían incluidos en el panel (hasta RECIBOS_BASE_MAX, sin "rid").
 // Cada carga nueva queda etiquetada (campo cg) y registrada en recibosCargas, para poder deshacerla.
 let recibosCargas=[];
+let recibosDesde=''; // 'YYYY-MM': solo se usan recibos desde ese mes (vacío = todos)
+function enPeriodo(r){return !recibosDesde||String(r.f||'').slice(0,7)>=recibosDesde;}
 let recibosPend=null;
 const sigRec=r=>(r.f||'')+'|'+normCli(r.c)+'|'+Math.round((r.m||0)*100)+'|'+(r.met||'');
 function esReciboBase(r){return !r.rid&&!r.cg;}
@@ -4619,7 +4638,7 @@ function sumarAgg(map,a){
 // Arma el resumen mensual: base original (conserva plazos de cheque) + recibos cargados después
 function mensualDesdeDetalle(det){
   const map={};
-  if(det.some(esReciboBase))PAGOS_BASE.forEach(a=>sumarAgg(map,a));
+  if(det.some(esReciboBase))PAGOS_BASE.filter(a=>!recibosDesde||a.m>=recibosDesde).forEach(a=>sumarAgg(map,a));
   buildPagosMensualFromDetalle(det.filter(r=>!esReciboBase(r))).forEach(a=>sumarAgg(map,a));
   return Object.values(map);
 }
@@ -4630,10 +4649,10 @@ async function guardarRecibos(estadoPrevio){
       body:JSON.stringify({id:'respaldo',valor:estadoPrevio,updated_at:new Date().toISOString()})});}catch(e){console.warn('Sin respaldo:',e);}
   }
   const r=await fetch(SUPABASE_URL+'/rest/v1/'+SUPABASE_TABLE_PAGOS+'?on_conflict=id',{method:'POST',headers:{...SUPABASE_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
-    body:JSON.stringify({id:'actual',valor:{mensual:pagosMensual,detalle:recibosDetalle,cargas:recibosCargas},updated_at:new Date().toISOString()})});
+    body:JSON.stringify({id:'actual',valor:{mensual:pagosMensual,detalle:recibosDetalle,cargas:recibosCargas,desde:recibosDesde},updated_at:new Date().toISOString()})});
   if(!r.ok)throw new Error('HTTP '+r.status);
 }
-function estadoRecibosActual(){return{mensual:pagosMensual,detalle:recibosDetalle,cargas:recibosCargas,guardado:new Date().toISOString(),por:currentUser?currentUser.nombre:''};}
+function estadoRecibosActual(){return{mensual:pagosMensual,detalle:recibosDetalle,cargas:recibosCargas,desde:recibosDesde,guardado:new Date().toISOString(),por:currentUser?currentUser.nombre:''};}
 function refrescarCumplimientoTodo(){
   vendedorClienteCumpl._map=null;
   document.getElementById('cu-mes-filter').value='';
@@ -4641,9 +4660,10 @@ function refrescarCumplimientoTodo(){
   cuActiveFilter='';document.querySelectorAll('#view-cumplimiento .metric').forEach(m=>m.classList.remove('active'));
   cuPage=1;renderCumplimiento();
 }
-async function aplicarCambioRecibos(nuevoDetalle,nuevasCargas,mensaje){
+async function aplicarCambioRecibos(nuevoDetalle,nuevasCargas,mensaje,nuevoDesde){
   const previo=estadoRecibosActual();
-  recibosDetalle=nuevoDetalle;recibosCargas=nuevasCargas;
+  if(nuevoDesde!==undefined)recibosDesde=nuevoDesde||'';
+  recibosDetalle=nuevoDetalle.filter(enPeriodo);recibosCargas=nuevasCargas;
   pagosMensual=mensualDesdeDetalle(recibosDetalle);
   refrescarCumplimientoTodo();
   try{await guardarRecibos(previo);showToast(mensaje+' ✓');}
@@ -4669,13 +4689,14 @@ document.getElementById('cu-file-input').addEventListener('change',function(){
       const yaRid=new Set(recibosDetalle.map(r=>r.rid).filter(Boolean));
       // contador de firmas de la base (para no duplicar recibos que ya venían incluidos)
       const baseSig={};recibosDetalle.filter(esReciboBase).forEach(r=>{const k=sigRec(r);baseSig[k]=(baseSig[k]||0)+1;});
-      const nuevos=[],repetidos=[];
+      const nuevos=[],repetidos=[],viejos=[];
       det.forEach(r=>{
+        if(!enPeriodo(r)){viejos.push(r);return;}
         if(r.rid&&yaRid.has(r.rid)){repetidos.push(r);return;}
         const k=sigRec(r);if(r.f<=RECIBOS_BASE_MAX&&baseSig[k]>0){baseSig[k]--;repetidos.push(r);return;}
         nuevos.push(r);
       });
-      recibosPend={archivo:file.name,nuevos,repetidos,malos,total:det.length};
+      recibosPend={archivo:file.name,nuevos,repetidos,malos,viejos,total:det.length};
       pintarPreviewRecibos();
       document.getElementById('modal-recibos-carga').classList.add('open');
     }catch(err){
@@ -4696,7 +4717,7 @@ function pintarPreviewRecibos(){
   let h='';
   if(pareceMal)h+='<div class="cump-banner" style="background:var(--red-bg);border-color:#4a1810"><i class="ti ti-alert-octagon" style="color:var(--red)"></i><div><strong style="color:var(--text)">Este archivo no parece el de recibos.</strong> '+(P.total?P.malos.length+' de '+P.total+' filas no tienen empresa (SPL/Spotsline en el diario), cliente o importe.':'No se encontró ningún recibo.')+' Revisá el formato antes de cargarlo:</div></div>'+FORMATO_RECIBOS_HTML;
   h+='<div class="metrics" style="margin:12px 0"><div class="metric m-prev"><div class="metric-label">Recibos nuevos</div><div class="metric-value">'+P.nuevos.length+'</div><div class="metric-sub">'+fmtN(totN)+'</div></div>'
-    +'<div class="metric m-all"><div class="metric-label">Ya estaban (se ignoran)</div><div class="metric-value">'+P.repetidos.length+'</div></div>'
+    +'<div class="metric m-all"><div class="metric-label">Ya estaban (se ignoran)</div><div class="metric-value">'+P.repetidos.length+'</div>'+((P.viejos||[]).length?'<div class="metric-sub">+ '+P.viejos.length+' anteriores a '+nombreMesObj(recibosDesde)+'</div>':'')+'</div>'
     +'<div class="metric m-crit"><div class="metric-label">Filas con problemas</div><div class="metric-value">'+P.malos.length+'</div><div class="metric-sub">sin empresa, cliente o importe</div></div>'
     +'<div class="metric m-temp"><div class="metric-label">Fechas</div><div class="metric-value" style="font-size:15px">'+(fechas.length?fmtFecha(fechas[0])+' al '+fmtFecha(fechas[fechas.length-1]):'—')+'</div></div></div>';
   if(P.nuevos.length){
@@ -4735,6 +4756,14 @@ function pintarRecibosAdmin(){
     +'<div class="metric m-prev"><div class="metric-label">Base original</div><div class="metric-value">'+base.length.toLocaleString('es-AR')+'</div><div class="metric-sub">hasta '+fmtFecha(RECIBOS_BASE_MAX)+'</div></div>'
     +'<div class="metric m-temp"><div class="metric-label">Cargados después</div><div class="metric-value">'+(recibosDetalle.length-base.length).toLocaleString('es-AR')+'</div></div>'
     +'<div class="metric m-crit"><div class="metric-label">Con problemas</div><div class="metric-value">'+raros.length+'</div><div class="metric-sub">sin empresa, cliente o importe</div></div></div>';
+  // Período
+  const mesesDisp=[...new Set(recibosDetalle.map(r=>String(r.f||'').slice(0,7)).filter(x=>/^\d{4}-\d{2}$/.test(x)))].sort();
+  const hoyM=mesHoyKey();const opciones=[];{let d=new Date(2025,0,1);while(isoLocal(d).slice(0,7)<=hoyM){opciones.push(isoLocal(d).slice(0,7));d.setMonth(d.getMonth()+1);}}
+  h+='<div class="section-title">Período de recibos</div><div class="perm-box" style="margin-bottom:14px"><div style="font-size:12.5px;color:var(--text2);margin-bottom:8px">'
+    +(recibosDesde?'Hoy se usan solo los recibos <strong>desde '+nombreMesObj(recibosDesde)+'</strong>.':'Hoy se usan <strong>todos</strong> los recibos'+(mesesDisp.length?' ('+nombreMesObj(mesesDisp[0])+' a '+nombreMesObj(mesesDisp[mesesDisp.length-1])+')':'')+'.')
+    +' Los recibos anteriores al mes elegido se borran del panel y las próximas cargas los ignoran.</div>'
+    +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">Mantener solo desde <select id="ra-desde" style="padding:6px 8px">'+opciones.slice().reverse().map(m=>'<option value="'+m+'"'+(m===(recibosDesde||'2026-09')?' selected':'')+'>'+nombreMesObj(m)+'</option>').join('')+'</select>'
+    +'<button class="btn btn-yellow" id="ra-aplicar-desde"><i class="ti ti-calendar-cog"></i> Aplicar</button>'+(recibosDesde?'<span style="font-size:11.5px;color:var(--text3)">(para volver a ver meses borrados: “Deshacer el último cambio” o “Volver a la base”)</span>':'')+'</div></div>';
   h+='<div class="section-title">Cargas registradas</div>';
   const cgs=recibosCargas.slice().sort((a,b)=>String(b.ts).localeCompare(String(a.ts)));
   h+=cgs.length?'<table class="obj-cfg" style="min-width:0"><thead><tr><th>Cuándo</th><th>Archivo</th><th>Recibos</th><th>Fechas</th><th style="text-align:right">Importe</th><th></th></tr></thead><tbody>'
@@ -4774,14 +4803,17 @@ document.getElementById('ra-body').addEventListener('click',async e=>{
   if(e.target.closest('#ra-borrar-raros')){const mal=r=>!esReciboBase(r)&&(r.e==='?'||!r.c||r.c==='Sin nombre'||!(r.m>0));const n=recibosDetalle.filter(mal).length;
     if(!confirm('¿Borrar los '+n+' recibos sin empresa, cliente o importe?'))return;
     await aplicarCambioRecibos(recibosDetalle.filter(r=>!mal(r)),recibosCargas,n+' recibos borrados');return;}
+  if(e.target.closest('#ra-aplicar-desde')){const d=document.getElementById('ra-desde').value;const n=recibosDetalle.filter(r=>String(r.f||'').slice(0,7)<d).length;
+    if(!confirm('¿Dejar solo los recibos desde '+nombreMesObj(d)+'? Se borran '+n.toLocaleString('es-AR')+' recibos anteriores. Se guarda un respaldo por si querés deshacerlo.'))return;
+    await aplicarCambioRecibos(recibosDetalle,recibosCargas,'Listo: solo recibos desde '+nombreMesObj(d)+' ('+n.toLocaleString('es-AR')+' borrados)',d);return;}
   if(e.target.closest('#ra-base')){const n=recibosDetalle.filter(r=>!esReciboBase(r)).length;
-    if(!confirm('¿Volver a la base original? Se borran los '+n+' recibos cargados después del '+fmtFecha(RECIBOS_BASE_MAX)+'. Después podés subir el archivo correcto.'))return;
-    await aplicarCambioRecibos(recibosDetalle.filter(esReciboBase),[],'Recibos vueltos a la base');return;}
+    if(!confirm('¿Volver a la base original? Se borran los '+n+' recibos cargados después del '+fmtFecha(RECIBOS_BASE_MAX)+' y se vuelven a mostrar todos los meses de la base. Después podés subir el archivo correcto.'))return;
+    await aplicarCambioRecibos(RECIBOS_BASE_DET.slice(),[],'Recibos vueltos a la base','');return;}
   if(e.target.closest('#ra-deshacer-ultimo')){
     try{const r=await fetch(SUPABASE_URL+'/rest/v1/'+SUPABASE_TABLE_PAGOS+'?id=eq.respaldo&select=valor',{headers:SUPABASE_HEADERS});const rows=await r.json();const v=rows&&rows[0]&&rows[0].valor;
       if(!v||!v.detalle){showToast('No hay un respaldo guardado todavía');return;}
       if(!confirm('¿Volver a como estaban los recibos antes del último cambio'+(v.guardado?' ('+new Date(v.guardado).toLocaleString('es-AR')+(v.por?', '+v.por:'')+')':'')+'? ('+v.detalle.length+' recibos)'))return;
-      await aplicarCambioRecibos(v.detalle,v.cargas||[],'Último cambio deshecho');
+      await aplicarCambioRecibos(v.detalle,v.cargas||[],'Último cambio deshecho',v.desde||'');
     }catch(err){showToast('No se pudo leer el respaldo: '+err.message);}
   }
 });
@@ -4857,6 +4889,97 @@ document.addEventListener('click',e=>{
   aplicarPlegados();
   const r=document.getElementById('obj-vend-resumen');if(r)r.textContent=r.textContent.replace(/(ver el detalle|ocultarlo)$/,plegado('obj-vend-wrap')?'ver el detalle':'ocultarlo');
 });
+
+// ===================== "¿CÓMO SE CALCULA?" (al pasar el mouse o tocar un número) =====================
+// Cualquier elemento con data-calc muestra un globo con la explicación y la cuenta con los valores reales.
+(function(){
+  const tip=document.createElement('div');tip.id='calc-tip';tip.className='calc-tip';tip.hidden=true;document.body.appendChild(tip);
+  let actual=null,fijo=false;
+  function mostrar(el){
+    actual=el;tip.innerHTML='<div class="calc-tip-h"><i class="ti ti-calculator"></i> ¿Cómo se calcula?</div>'+el.getAttribute('data-calc');tip.hidden=false;
+    const r=el.getBoundingClientRect();const w=Math.min(420,window.innerWidth-24);tip.style.width=w+'px';
+    let left=Math.min(Math.max(12,r.left),window.innerWidth-w-12);tip.style.left=left+'px';
+    const h=tip.offsetHeight;let top=r.bottom+8;if(top+h>window.innerHeight-8)top=Math.max(8,r.top-h-8);tip.style.top=top+'px';
+  }
+  function ocultar(){tip.hidden=true;actual=null;fijo=false;}
+  document.addEventListener('mouseover',e=>{if(fijo)return;const el=e.target.closest&&e.target.closest('[data-calc]');if(el&&el!==actual&&el.getAttribute('data-calc'))mostrar(el);else if(!el&&actual&&!tip.contains(e.target))ocultar();});
+  // tocar el ícono ⓘ (o en celular) lo deja fijo
+  document.addEventListener('click',e=>{const ic=e.target.closest&&e.target.closest('.calc-ic');if(ic){e.stopPropagation();e.preventDefault();const el=ic.closest('[data-calc]');if(fijo&&actual===el){ocultar();return;}mostrar(el);fijo=true;return;}
+    if(fijo&&!tip.contains(e.target))ocultar();},true);
+  window.addEventListener('scroll',()=>{if(!fijo)ocultar();},{passive:true});
+})();
+function setCalc(el,html){
+  if(typeof el==='string')el=document.getElementById(el);if(!el)return;
+  el.setAttribute('data-calc',html);el.removeAttribute('title');
+  const lbl=el.querySelector('.metric-label')||el.querySelector('.calc-lbl');
+  if(lbl&&!lbl.querySelector('.calc-ic'))lbl.insertAdjacentHTML('beforeend',' <i class="ti ti-info-circle calc-ic" title=""></i>');
+}
+function cardDe(id){const e=document.getElementById(id);return e?(e.closest('.metric')||e.parentElement):null;}
+const cRow=(a,b,cls)=>'<div class="calc-row'+(cls?' '+cls:'')+'"><span>'+a+'</span><span>'+b+'</span></div>';
+
+// --- Objetivos ---
+function explicarObjetivos(X){
+  const{cfg,base,objetivoTotal,semanasMes,objetivoSemanal,cobradoMesTotal,cobradoSemanaTotal,pctMes,pctSemana,foto,desde,hasta,baseTotal}=X;
+  const porTB={},porTO={};TRAMOS_ORDEN.forEach(t=>{porTB[t]=0;porTO[t]=0;});
+  Object.entries(base.porVT).forEach(([v,st])=>{const o=objetivoVendedor(cfg,v,st);TRAMOS_ORDEN.forEach(t=>{porTB[t]+=st[t]||0;porTO[t]+=o.porTramo[t]||0;});});
+  const nInd=Object.keys(cfg.vendedores||{}).length;
+  const objHtml='<p>Se parte de la <strong>cartera de la foto</strong> ('+(foto?'del '+fmtFecha(foto.fecha_foto):'de hoy, provisoria')+') separada por tipo de deudor, y a cada parte se le aplica el % de cobro esperado:</p>'
+    +TRAMOS_ORDEN.map(t=>cRow(TRAMO_LBL[t]+': '+fmtN(porTB[t])+' × '+pctGeneral(cfg,t)+'%',fmtN(porTO[t]))).join('')
+    +cRow('Objetivo del mes',fmtN(objetivoTotal),'calc-tot')
+    +(nInd?'<p class="calc-nota">'+nInd+' vendedor'+(nInd!==1?'es tienen':' tiene')+' % individual: en esos casos se usa su %, por eso el resultado por tramo puede no coincidir exacto con el % general.</p>':'')
+    +'<p class="calc-nota">Es fijo para todo el mes: no cambia aunque la cartera se actualice.</p>';
+  // cobrado del mes / semana con detalle
+  const mapHoy=buildClienteVendedorMap();
+  const det=(desdeF,hastaF)=>{const o={Transferencia:[0,0],Cheque:[0,0],Efectivo:[0,0]},no={n:0,m:0};
+    recibosDetalle.forEach(r=>{if(r.f<desdeF||r.f>hastaF)return;if(!veVendedor(vendedorDeCliente(base,mapHoy,r.c)))return;
+      if(esCobrado(r.edo,r.met)){const k=o[r.met]?r.met:'Transferencia';o[k][0]++;o[k][1]+=r.m||0;}else{no.n++;no.m+=r.m||0;}});return{o,no};};
+  const mesIni=objMesActual+'-01',mesFin=objMesActual+'-31';
+  const dm=det(mesIni,mesFin);
+  const cobHtml='<p>Suma de los <strong>recibos de '+nombreMesObj(objMesActual)+'</strong> (por fecha del recibo) que cuentan como cobrados:</p>'
+    +Object.entries(dm.o).filter(([,v])=>v[0]).map(([k,v])=>cRow(k+' ('+v[0]+' recibos)',fmtN(v[1]))).join('')
+    +cRow('Cobrado real del mes',fmtN(cobradoMesTotal),'calc-tot')
+    +'<p class="calc-nota">Cuenta: recibos en estado <em>Pagado</em> + todas las transferencias. '+(dm.no.n?'<strong>No cuenta</strong> '+dm.no.n+' recibos “en proceso” (cheques/efectivo sin acreditar) por '+fmtN(dm.no.m)+'.':'')+' Sale de Cumplimiento de pagos: si faltan recibos, hay que subirlos ahí.</p>'
+    +cRow('% cumplido = '+fmtN(cobradoMesTotal)+' ÷ '+fmtN(objetivoTotal),pctMes+'%');
+  const ds=det(desde,hasta);
+  const semHtml='<p>Recibos cobrados con fecha de esta semana, <strong>lunes '+fmtFecha(desde)+' a domingo '+fmtFecha(hasta)+'</strong>:</p>'
+    +Object.entries(ds.o).filter(([,v])=>v[0]).map(([k,v])=>cRow(k+' ('+v[0]+')',fmtN(v[1]))).join('')
+    +cRow('Cobrado esta semana',fmtN(cobradoSemanaTotal),'calc-tot')
+    +cRow('Objetivo semanal = '+fmtN(objetivoTotal)+' ÷ '+semanasMes+' semanas',fmtN(objetivoSemanal))
+    +cRow('Avance = '+fmtN(cobradoSemanaTotal)+' ÷ '+fmtN(objetivoSemanal),pctSemana+'%')
+    +'<p class="calc-nota">'+semanasMes+' = cantidad de semanas (lunes a domingo) que tocan '+nombreMesObj(objMesActual)+', aunque sea con un día.</p>';
+  // proyectado
+  const items=getProyecciones();let comp=[0,0],venc=[0,0];
+  items.forEach(it=>{const raw=new Date(it.fechaRaw+'T00:00:00');if(isNaN(raw))return;let eff=raw;if(raw.getDay()===6)eff=new Date(raw.getFullYear(),raw.getMonth(),raw.getDate()+2);else if(raw.getDay()===0)eff=new Date(raw.getFullYear(),raw.getMonth(),raw.getDate()+1);
+    const iso=isoLocal(eff);if(iso<desde||iso>hasta)return;const c=clientes[it.idx];if(c&&!veCliente(c,it.idx))return;const a=it.tipo==='compromiso'?comp:venc;a[0]++;a[1]+=it.monto||0;});
+  const proHtml='<p>Lo que <strong>debería entrar esta semana</strong> según la cartera de hoy ('+fmtFecha(desde)+' al '+fmtFecha(hasta)+'):</p>'
+    +cRow('Facturas que vencen esta semana ('+venc[0]+')',fmtN(venc[1]))
+    +cRow('Compromisos de pago cargados para esta semana ('+comp[0]+')',fmtN(comp[1]))
+    +cRow('A cobrar esta semana',fmtN(venc[1]+comp[1]),'calc-tot')
+    +'<p class="calc-nota">Si un cliente tiene un compromiso de pago cargado en su gestión, se usa la fecha y el monto del compromiso en lugar de sus facturas. Lo que vence sábado o domingo se pasa al lunes. <strong>No incluye</strong> la deuda que ya estaba vencida antes del lunes ni lo ya cobrado.</p>';
+  setCalc(cardDe('obj-m-objetivo'),objHtml);setCalc(cardDe('obj-m-cobrado'),cobHtml);setCalc(cardDe('obj-m-semana'),semHtml);setCalc(cardDe('obj-m-proyectado'),proHtml);
+  setCalc(document.getElementById('obj-hero-objetivo').parentElement,objHtml);
+  setCalc(document.getElementById('obj-hero-cobrado').parentElement,cobHtml);
+  setCalc(document.getElementById('obj-hero-pct').parentElement,'<p>Cuánto del objetivo del mes ya se cobró.</p>'+cRow(fmtN(cobradoMesTotal)+' ÷ '+fmtN(objetivoTotal),pctMes+'%','calc-tot')+'<p class="calc-nota">Verde desde 100%, amarillo desde 60%, rojo por debajo.</p>');
+  const hs=document.getElementById('obj-hero-semanal');hs.classList.add('calc-lbl-wrap');setCalc(hs,semHtml);if(!hs.querySelector('.calc-ic'))hs.insertAdjacentHTML('beforeend',' <i class="ti ti-info-circle calc-ic"></i>');
+}
+// --- Cartera y Cumplimiento (definiciones fijas) ---
+function explicarFijos(){
+  const D={
+    'm-total':'<p>Todos los clientes con saldo deudor en la cartera (incluye los que todavía no vencieron).</p>'+cRow('Número grande','cantidad de clientes')+cRow('Abajo','suma de su deuda'),
+    'm-crit':'<p>Clientes cuya <strong>factura impaga más vieja</strong> venció hace <strong>más de 45 días</strong>.</p><p class="calc-nota">El monto es toda la deuda de esos clientes (también sus facturas más nuevas). Días = hoy − vencimiento de la factura más vieja.</p>',
+    'm-med':'<p>Clientes cuya factura impaga más vieja venció hace <strong>16 a 45 días</strong>.</p><p class="calc-nota">El monto es toda la deuda de esos clientes.</p>',
+    'm-temp':'<p>Clientes cuya factura impaga más vieja venció hace <strong>1 a 15 días</strong>.</p><p class="calc-nota">El monto es toda la deuda de esos clientes.</p>',
+    'm-prev':'<p>Clientes que <strong>todavía no tienen nada vencido</strong> (su factura más vieja vence hoy o más adelante).</p>',
+    'm-gest':'<p>Clientes que tienen al menos una gestión cargada (nota, compromiso o mail registrado).</p>',
+    'hero-deuda':'<p>Suma del saldo de todos los clientes de la cartera que ves, según el último Excel de Odoo cargado en <em>Actualizar</em>.</p><p class="calc-nota">Abajo se separa por empresa: en clientes que deben a las dos, se reparte según sus facturas de cada una.</p>',
+    'cu-total-pagado':'<p>Suma de los recibos que cuentan como <strong>cobrados</strong> en el período elegido: estado <em>Pagado</em> + todas las transferencias (aunque Odoo las marque en proceso).</p><p class="calc-nota">Período: el mes del filtro, o todos los meses cargados. Abajo: cantidad de clientes con recibos.</p>',
+    'cu-total-proceso':'<p>Recibos que <strong>todavía no cuentan</strong> como cobrados: cheques o efectivo en estado <em>En proceso</em> (no acreditados).</p>',
+    'cu-cheques-monto':'<p>Cantidad e importe de los <strong>cheques</strong> recibidos en el período.</p><p class="calc-nota">Solo de los recibos cargados con el detalle de cheques.</p>',
+    'cu-plazo-prom':'<p>Promedio de días entre la <strong>fecha del recibo</strong> y la <strong>fecha del cheque más lejano</strong> de ese recibo.</p>'+cRow('Por cliente','promedio de sus recibos con cheque')+cRow('Esta tarjeta','promedio de los promedios de cada cliente')+'<p class="calc-nota">No usa la fecha de factura. Solo recibos cargados con detalle de cheques.</p>'
+  };
+  Object.entries(D).forEach(([id,h])=>{const el=id==='hero-deuda'?document.getElementById(id).parentElement:cardDe(id);if(el){if(id==='hero-deuda'){const l=el.querySelector('.hero-label');if(l)l.classList.add('calc-lbl');}setCalc(el,h);}});
+}
+explicarFijos();
 
 // ===================== AYUDA / INSTRUCTIVO =====================
 function irAyuda(sec){
