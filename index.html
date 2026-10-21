@@ -591,6 +591,8 @@ tr:hover td{background:var(--bg3)}
   <div class="toolbar">
     <select id="obj-mes" style="width:170px"></select>
     <span style="flex:1"></span>
+    <button class="btn" id="btn-obj-excel" title="Fijar el objetivo del mes elegido con el Excel de Odoo exportado el primer día hábil"><i class="ti ti-file-upload"></i> Cargar foto desde Excel</button>
+    <input type="file" id="fe-file" accept=".xlsx,.xls" style="display:none">
     <button class="btn" id="btn-obj-refresh"><i class="ti ti-refresh"></i> Recalcular</button>
   </div>
 
@@ -680,7 +682,7 @@ tr:hover td{background:var(--bg3)}
 <li><strong>Beneficio por pago anticipado:</strong> elegís el % y los días desde la <strong>fecha de emisión</strong> de la factura (no del vencimiento), y marcás <em>a qué facturas</em> aplica (vienen marcadas las que todavía están en plazo). En el mail cada una muestra la etiqueta “7% OFF hasta dd/mm” y el recuadro del beneficio detalla fecha límite, importe original tachado e importe con descuento. Si no marcás ninguna, el beneficio no aparece.</li>
 <li><strong>Registro automático:</strong> con la opción <em>Registrar gestión</em> tildada, al tocar <em>Abrir mi correo</em> o bajar el borrador se guarda sola una gestión en la ficha del cliente (“📧 Mail de cobranza enviado a…, N facturas por $…, beneficio ofrecido en…”), con tu nombre y la fecha. El texto se puede editar antes. Se registra una sola vez por mail; si lo mandaste de otra forma, usá <em>Registrar ahora</em>.</li>
 <li>Antes de enviar podés cambiar la firma, el asunto, el texto del beneficio (o sacarlo) y, si el cliente tiene facturas de las dos empresas, mandar todo junto o solo las de una.</li>
-<li><strong>Cómo se envía:</strong> 1) <em>Copiar mail</em>; 2) <em>Abrir mi correo</em> (abre un mail nuevo con el destinatario y el asunto); 3) en el cuerpo, pegar con <strong>Ctrl+V</strong>. Funciona con Gmail y Outlook. Con Outlook de escritorio también podés usar <em>Borrador para Outlook (.eml)</em>: se descarga y al abrirlo queda listo para enviar.</li>
+<li><strong>Cómo se envía:</strong> tocá <em>Abrir mi correo con el mail</em>: el mail queda copiado con formato y se abre un correo nuevo con destinatario y asunto; hacé clic en el cuerpo y pegá con <strong>Ctrl+V</strong>. (Los navegadores no permiten mandar colores y tablas directo al cuerpo del correo; por eso se pega.) Funciona con Gmail y Outlook. Con Outlook de escritorio también podés usar <em>Borrador para Outlook (.eml)</em>: se descarga y al abrirlo queda listo para enviar.</li>
 <li>Los datos bancarios, el teléfono y el mail de contacto están fijos en el panel; si cambian, pedilo con un Pedido de mejora.</li>
 </ul>
 
@@ -743,6 +745,7 @@ tr:hover td{background:var(--bg3)}
 <li>El objetivo del mes se calcula <strong>siempre sobre esa foto</strong>. Si después se sube un Excel nuevo, cambia Cartera pero el objetivo queda fijo hasta el mes siguiente.</li>
 <li>La foto la toma automáticamente la primera persona que entra al panel ese día. Si ese mismo día se sube un Excel nuevo de Odoo, la foto se actualiza con esa cartera (sigue siendo la del primer día hábil).</li>
 <li>Si nadie entró el primer día hábil, se toma la primera vez que alguien entra después, y se avisa en naranja.</li>
+<li><strong>Cargar foto desde Excel:</strong> si el primer día hábil se exportó de Odoo el Excel de <em>Apunte contable (account.move.line)</em> (el mismo de <em>Actualizar</em>), elegí el mes arriba y tocá <em>Cargar foto desde Excel</em>. Muestra la cartera y el objetivo por vendedor para revisar y, al confirmar, fija el objetivo de ese mes con ese archivo. Los tipos de deudor se calculan a la fecha del primer día hábil. Si un cliente no trae vendedor en el archivo, se usa el que tiene hoy en Cartera. No modifica la cartera actual.</li>
 <li>Administración puede usar <em>Volver a tomar la foto con la cartera de hoy</em> (solo en el mes en curso) si la foto se tomó con datos viejos.</li>
 <li>Arriba del objetivo, la etiqueta indica el estado: <span class="badge b-prev">fijo · foto del dd/mm</span>, <span class="badge b-temp">provisorio</span> (todavía no hay foto) o <span class="badge b-ambas">referencial</span> (meses anteriores a octubre 2026, que no tienen foto: se muestran con la deuda de hoy).</li>
 </ul>
@@ -768,7 +771,7 @@ tr:hover td{background:var(--bg3)}
 
 <h3 id="a-mail">Informe por mail y mails de vendedores</h3>
 <ul>
-<li>En <em>Reporte</em>, elegí un vendedor y tocá <em>Mail semanal</em>: se arma un <strong>informe con formato</strong> (cartera total, deuda vencida, preventivo, % con gestión, avance del objetivo del mes con barra, distribución por tipo de deudor, alerta de clientes sin gestión, tabla de clientes en mora con su última gestión, compromisos y reclamos, y próximos vencimientos). El destinatario se completa solo con el mail cargado para ese vendedor. Se envía igual que el mail al cliente: <em>Copiar informe</em> → <em>Abrir mi correo</em> → Ctrl+V, o con el borrador para Outlook.</li>
+<li>En <em>Reporte</em>, elegí un vendedor y tocá <em>Mail semanal</em>: se arma un <strong>informe con formato</strong> (cartera total, deuda vencida, preventivo, % con gestión, avance del objetivo del mes con barra, distribución por tipo de deudor, alerta de clientes sin gestión, tabla de clientes en mora con su última gestión, compromisos y reclamos, y próximos vencimientos). El destinatario se completa solo con el mail cargado para ese vendedor. Se envía igual que el mail al cliente: <em>Abrir mi correo con el informe</em> y pegar con Ctrl+V, o con el borrador para Outlook.</li>
 <li>Al enviarlo (abrir correo o descargar el borrador) se suma un reclamo a cada cliente vencido del informe; cuando el vendedor carga una gestión, el contador vuelve a cero.</li>
 <li>Los mails se cargan en <em>Reporte → Mails de vendedores</em> (solo administración). Se puede poner más de un mail separado por coma (ej. vendedor y supervisor). Se guardan para todo el equipo.</li>
 <li>Si un vendedor no tiene mail y lo escribís directamente en el informe, queda guardado para la próxima.</li>
@@ -920,8 +923,8 @@ tr:hover td{background:var(--bg3)}
     <iframe id="mv-preview" title="Vista previa del informe" style="width:100%;height:48vh;border:0;border-radius:10px;background:#f2f2f2"></iframe>
     <div id="mv-paso" style="font-size:12.5px;color:var(--text2);margin-top:10px;min-height:18px"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-      <button class="btn btn-yellow" id="mv-copiar"><i class="ti ti-copy"></i> 1 · Copiar informe</button>
-      <button class="btn btn-yellow" id="mv-abrir"><i class="ti ti-external-link"></i> 2 · Abrir mi correo</button>
+      <button class="btn btn-yellow" id="mv-abrir" style="font-size:14px;padding:9px 16px"><i class="ti ti-mail-forward"></i> Abrir mi correo con el informe</button>
+      <button class="btn" id="mv-copiar" title="Si ya tenés el correo abierto"><i class="ti ti-copy"></i> Copiar de nuevo</button>
       <button class="btn" id="mv-eml" style="margin-left:auto"><i class="ti ti-download"></i> Borrador para Outlook (.eml)</button>
     </div>
   </div>
@@ -1052,10 +1055,21 @@ tr:hover td{background:var(--bg3)}
     </div>
     <div id="mc-paso" style="font-size:12.5px;color:var(--text2);margin-top:10px;min-height:18px"></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-      <button class="btn btn-yellow" id="mc-copiar"><i class="ti ti-copy"></i> 1 · Copiar mail</button>
-      <button class="btn btn-yellow" id="mc-abrir"><i class="ti ti-external-link"></i> 2 · Abrir mi correo</button>
+      <button class="btn btn-yellow" id="mc-abrir" style="font-size:14px;padding:9px 16px"><i class="ti ti-mail-forward"></i> Abrir mi correo con el mail</button>
+      <button class="btn" id="mc-copiar" title="Si ya tenés el correo abierto"><i class="ti ti-copy"></i> Copiar de nuevo</button>
       <button class="btn" id="mc-eml" title="Borrador listo para Outlook de escritorio" style="margin-left:auto"><i class="ti ti-download"></i> Borrador para Outlook (.eml)</button>
     </div>
+  </div>
+</div>
+
+
+<!-- MODAL FOTO DESDE EXCEL -->
+<div class="modal-bg" id="modal-foto-excel">
+  <div class="modal" style="width:860px">
+    <h2><i class="ti ti-camera" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i><span id="fe-tit">Foto desde Excel</span></h2>
+    <div class="modal-sub">Revisá cómo queda la cartera base del mes antes de fijarla. La cartera actual no se modifica.</div>
+    <div id="fe-resumen"></div>
+    <div class="modal-footer"><button class="btn" id="fe-cancel">Cancelar</button><button class="btn btn-yellow" id="fe-ok">Confirmar y fijar objetivo</button></div>
   </div>
 </div>
 
@@ -2255,15 +2269,6 @@ document.getElementById('btn-rep-mail').addEventListener('click',async()=>{
 });
 document.getElementById('mv-cancel').addEventListener('click',()=>document.getElementById('modal-mail-vendedor').classList.remove('open'));
 document.getElementById('modal-mail-vendedor').addEventListener('click',e=>{if(e.target===document.getElementById('modal-mail-vendedor'))document.getElementById('modal-mail-vendedor').classList.remove('open');});
-document.getElementById('mv-abrir').addEventListener('click',()=>{
-  const para=document.getElementById('mv-para').value.trim();
-  const asunto=document.getElementById('mv-asunto').value;
-  recordarMailVendedor();
-  window.location.href='mailto:'+encodeURIComponent(para)+'?subject='+encodeURIComponent(asunto);
-  registrarReclamoInforme();
-  document.getElementById('mv-paso').innerHTML='Se abrió tu correo con destinatario y asunto. Pegá el informe con <strong>Ctrl+V</strong> (si no lo copiaste, tocá <strong>Copiar informe</strong>).';
-});
-
 // --- UPLOAD ---
 function cleanTel(t){if(!t)return'';t=String(t).replace(/[^\d]/g,'');if(t.startsWith('54')&&t.length>10)t=t.slice(2);if(t.startsWith('0')&&t.length>10)t=t.slice(1);return t;}
 function cleanEmail(e){if(!e||String(e).toLowerCase()==='false')return'';return String(e).split(',')[0].trim();}
@@ -3020,7 +3025,8 @@ function renderFotoInfo(foto,baseTotal,nClientes){
     setB('fijo · foto del '+fmtFecha(foto.fecha_foto),'var(--green-bg)','var(--green)');
     html='<i class="ti ti-camera" style="vertical-align:-2px"></i> Base del objetivo: cartera de <strong>'+nClientes+'</strong> clientes por <strong>'+fmtN(baseTotal)+'</strong> al <strong>'+fmtFecha(foto.fecha_foto)+'</strong>'
       +' (primer día hábil de '+nombreMesObj(mesKey)+': '+fmtFecha(foto.primer_habil||ph)+'). No cambia aunque se actualice la cartera durante el mes.';
-    if(foto.fecha_foto>(foto.primer_habil||ph))html+=' <span style="color:var(--orange)">La foto se tomó después del primer día hábil (nadie abrió el panel ese día).</span>';
+    if(foto.motivo==='excel')html+=' <span style="color:var(--text3)">Cargada desde el Excel <em>'+escH(foto.archivo||'')+'</em>'+(foto.tomada_por?' por '+escH(foto.tomada_por):'')+'.</span>';
+    else if(foto.fecha_foto>(foto.primer_habil||ph))html+=' <span style="color:var(--orange)">La foto se tomó después del primer día hábil (nadie abrió el panel ese día).</span>';
     if(foto.motivo==='manual')html+=' <span style="color:var(--text3)">Foto retomada a mano'+(foto.tomada_por?' por '+escH(foto.tomada_por):'')+'.</span>';
     if(mesKey===mesHoy&&puedeEditarObj())html+=' <button class="link-btn" id="btn-obj-refoto">Volver a tomar la foto con la cartera de hoy</button>';
   } else if(mesKey===mesHoy&&hoyISO()<ph){
@@ -3663,6 +3669,7 @@ function aplicarPermisos(){
   set('btn-reporte',puede('reporte'));
   set('btn-rep-mails',puede('mails_vendedores'));
   set('btn-usuarios',puede('usuarios'));
+  set('btn-obj-excel',puede('editar_objetivos'));
   // Ayuda: los links "Ver instructivo" solo si tiene la solapa
   document.querySelectorAll('[data-ayuda]').forEach(a=>a.style.display=puede('tab_ayuda')?'':'none');
   const actual=vistaActual();
@@ -4184,14 +4191,19 @@ document.getElementById('mc-benef-ninguna').addEventListener('click',()=>{docume
 document.getElementById('mc-copiar').addEventListener('click',async()=>{
   const m=construirMailCliente(clientes[mailCliIdx],opcionesMailCli());
   const ok=await copiarHtml(m.html,m.txt);
-  document.getElementById('mc-paso').innerHTML=ok?'<i class="ti ti-circle-check" style="color:var(--green)"></i> Copiado con formato. Ahora tocá <strong>Abrir mi correo</strong> y, en el cuerpo del mensaje, pegá con <strong>Ctrl+V</strong>.':'<span style="color:var(--red)">No se pudo copiar automáticamente: seleccioná la vista previa con el mouse y copiala con Ctrl+C.</span>';
+  document.getElementById('mc-paso').innerHTML=ok?'<i class="ti ti-circle-check" style="color:var(--green)"></i> Copiado de nuevo con formato. Pegalo en el cuerpo del correo con <strong>Ctrl+V</strong>.':'<span style="color:var(--red)">No se pudo copiar automáticamente: seleccioná la vista previa con el mouse y copiala con Ctrl+C.</span>';
 });
-document.getElementById('mc-abrir').addEventListener('click',()=>{
+// Un solo clic: copia el mail con formato y abre el correo con destinatario y asunto; solo queda pegar
+document.getElementById('mc-abrir').addEventListener('click',async()=>{
   const para=document.getElementById('mc-para').value.trim();
   const asunto=document.getElementById('mc-asunto').value;
+  const m=construirMailCliente(clientes[mailCliIdx],opcionesMailCli());
+  const ok=await copiarHtml(m.html,m.txt);
   window.location.href='mailto:'+encodeURIComponent(para)+'?subject='+encodeURIComponent(asunto);
   registrarGestionMail(false);
-  document.getElementById('mc-paso').innerHTML='Se abrió tu correo con el destinatario y el asunto. Pegá el mensaje con <strong>Ctrl+V</strong> (si todavía no lo copiaste, tocá <strong>Copiar mail</strong>).';
+  document.getElementById('mc-paso').innerHTML=ok
+    ?'<span style="font-size:14px"><i class="ti ti-clipboard-check" style="color:var(--green)"></i> El mail ya está copiado. En el correo que se abrió, hacé clic en el cuerpo y pegá con <strong>Ctrl+V</strong>.</span>'
+    :'<span style="color:var(--red)">Se abrió el correo pero no se pudo copiar el mail: tocá <strong>Copiar de nuevo</strong> y pegalo con Ctrl+V.</span>';
 });
 function descargarEml(para,asunto,html,txt,nombreArchivo){
   const b64=s=>btoa(unescape(encodeURIComponent(s))).replace(/.{76}/g,'$&\r\n');
@@ -4329,11 +4341,24 @@ function recordarMailVendedor(){
   }
 }
 document.getElementById('mv-nota').addEventListener('input',refrescarMailVendedor);
+document.getElementById('mv-abrir').addEventListener('click',async()=>{
+  if(!mvEstado)return;
+  const para=document.getElementById('mv-para').value.trim();
+  const asunto=document.getElementById('mv-asunto').value;
+  const nota=document.getElementById('mv-nota').value.trim();
+  const ok=await copiarHtml(construirMailVendedor(mvEstado,nota),document.getElementById('mv-cuerpo').value+(nota?'\n\n'+nota:''),'mv-preview');
+  recordarMailVendedor();
+  window.location.href='mailto:'+encodeURIComponent(para)+'?subject='+encodeURIComponent(asunto);
+  registrarReclamoInforme();
+  document.getElementById('mv-paso').innerHTML=ok
+    ?'<span style="font-size:14px"><i class="ti ti-clipboard-check" style="color:var(--green)"></i> El informe ya está copiado. En el correo que se abrió, hacé clic en el cuerpo y pegá con <strong>Ctrl+V</strong>.</span>'
+    :'<span style="color:var(--red)">Se abrió el correo pero no se pudo copiar: tocá <strong>Copiar de nuevo</strong> y pegalo con Ctrl+V.</span>';
+});
 document.getElementById('mv-copiar').addEventListener('click',async()=>{
   if(!mvEstado)return;
   const nota=document.getElementById('mv-nota').value.trim();
   const ok=await copiarHtml(construirMailVendedor(mvEstado,nota),document.getElementById('mv-cuerpo').value+(nota?'\n\n'+nota:''),'mv-preview');
-  document.getElementById('mv-paso').innerHTML=ok?'<i class="ti ti-circle-check" style="color:var(--green)"></i> Copiado con formato. Tocá <strong>Abrir mi correo</strong> y pegá con <strong>Ctrl+V</strong> en el cuerpo.':'<span style="color:var(--red)">No se pudo copiar automáticamente: seleccioná la vista previa y copiala con Ctrl+C.</span>';
+  document.getElementById('mv-paso').innerHTML=ok?'<i class="ti ti-circle-check" style="color:var(--green)"></i> Copiado de nuevo con formato. Pegalo en el cuerpo del correo con <strong>Ctrl+V</strong>.':'<span style="color:var(--red)">No se pudo copiar automáticamente: seleccioná la vista previa y copiala con Ctrl+C.</span>';
 });
 document.getElementById('mv-eml').addEventListener('click',()=>{
   if(!mvEstado)return;
@@ -4342,6 +4367,82 @@ document.getElementById('mv-eml').addEventListener('click',()=>{
   descargarEml(document.getElementById('mv-para').value.trim(),document.getElementById('mv-asunto').value,construirMailVendedor(mvEstado,nota),document.getElementById('mv-cuerpo').value,'Informe_'+mvEstado.fv);
   registrarReclamoInforme();
   document.getElementById('mv-paso').innerHTML='Se descargó el borrador. Abrilo con <strong>Outlook</strong> y tocá <em>Enviar</em>.';
+});
+
+// ===================== FOTO DEL MES DESDE EXCEL (mayor de Odoo del primer día hábil) =====================
+// Permite fijar el objetivo de un mes con el Excel de Odoo (account.move.line) exportado ese día,
+// sin tocar la cartera actual. Mismo formato que "Actualizar".
+let fotoExcelPend=null;
+function vendedorActualDe(nombre){
+  const k=normCli(nombre);
+  const i=clientes.findIndex(c=>normCli(c.nombre)===k);
+  if(i>=0){const v=getVend(i);if(v)return v;}
+  const g=gestionesPorNombre&&gestionesPorNombre[nombre];if(g&&g.vendedor)return g.vendedor;
+  return '';
+}
+function prepararFotoExcel(wb,archivo){
+  const mes=objMesActual;const ph=isoLocal(primerDiaHabil(mes));
+  const parsed=parseCobranzas(wb).filter(c=>(c.deuda||0)>0);
+  if(!parsed.length)throw new Error('No encontré clientes con saldo en el archivo. ¿Es el Excel de Apunte contable (account.move.line)?');
+  let deCartera=0;
+  const filas=parsed.map(c=>{
+    let v=c.vendedor||'';
+    if(!v){v=vendedorActualDe(c.nombre);if(v)deCartera++;}
+    return[c.nombre,v||'Sin asignar',tramoClienteEnFecha(c,ph),Math.round(c.deuda*100)/100];
+  });
+  return{mes,ph,archivo,filas,deCartera};
+}
+function pintarPreviewFotoExcel(){
+  const P=fotoExcelPend;const cfg=pctDelMes(objFotoCache[P.mes]||null);
+  const porV={};P.filas.forEach(([n,v,t,d])=>{if(!porV[v])porV[v]=ceroTramos();porV[v][t]+=d;});
+  const tot=P.filas.reduce((s,r)=>s+r[3],0);
+  const vs=Object.keys(porV).sort((a,b)=>TRAMOS_ORDEN.reduce((s,t)=>s+porV[b][t],0)-TRAMOS_ORDEN.reduce((s,t)=>s+porV[a][t],0));
+  let objT=0;
+  const rows=vs.map(v=>{const st=porV[v];const o=objetivoVendedor(cfg,v,st).total;objT+=o;
+    return '<tr'+(v==='Sin asignar'?' style="color:var(--orange)"':'')+'><td style="font-weight:600">'+escH(v)+'</td>'+TRAMOS_ORDEN.map(t=>'<td style="text-align:right">'+(st[t]?fmtN(st[t]):'—')+'</td>').join('')+'<td style="text-align:right;font-weight:600">'+fmtN(TRAMOS_ORDEN.reduce((s,t)=>s+st[t],0))+'</td><td class="amount" style="text-align:right">'+fmtN(o)+'</td></tr>';}).join('');
+  const sinAsig=P.filas.filter(r=>r[1]==='Sin asignar');
+  const previa=objFotoCache[P.mes];
+  document.getElementById('fe-resumen').innerHTML=
+    '<div class="metrics" style="margin-bottom:12px"><div class="metric m-all"><div class="metric-label">Cartera al '+fmtFecha(P.ph)+'</div><div class="metric-value">'+fmtN(tot)+'</div><div class="metric-sub">'+P.filas.length+' clientes con saldo</div></div>'
+    +'<div class="metric m-prev"><div class="metric-label">Objetivo resultante</div><div class="metric-value">'+fmtN(objT)+'</div><div class="metric-sub">con los % de '+escH(nombreMesObj(P.mes))+'</div></div></div>'
+    +(previa?'<div class="cump-banner" style="background:var(--orange-bg);border-color:#3a2510"><i class="ti ti-alert-triangle" style="color:var(--orange)"></i><div>'+escH(nombreMesObj(P.mes))+' ya tiene una foto del '+fmtFecha(previa.fecha_foto)+' ('+fmtN(previa.clientes.reduce((s,r)=>s+r[3],0))+'). Si confirmás, se reemplaza por la de este archivo. Los % cargados se mantienen.</div></div>':'')
+    +(P.deCartera?'<div style="font-size:12px;color:var(--text2);margin-bottom:8px">'+P.deCartera+' cliente'+(P.deCartera!==1?'s':'')+' sin vendedor en el archivo tomaron el vendedor que tienen hoy en Cartera.</div>':'')
+    +(sinAsig.length?'<div style="font-size:12px;color:var(--orange);margin-bottom:8px">⚠ '+sinAsig.length+' cliente'+(sinAsig.length!==1?'s':'')+' quedan <strong>Sin asignar</strong> ('+fmtN(sinAsig.reduce((s,r)=>s+r[3],0))+'): '+escH(sinAsig.slice(0,8).map(r=>r[0]).join(', '))+(sinAsig.length>8?'…':'')+'. Suman al objetivo total pero no al de ningún vendedor: asignales vendedor en Cartera (ficha del cliente) y volvé a cargar el archivo.</div>':'')
+    +'<div class="table-scroll"><table class="obj-cfg" style="min-width:680px"><thead><tr><th>Vendedor</th>'+TRAMOS_ORDEN.map(t=>'<th style="text-align:right;color:'+tramoColor[t]+'">'+TRAMO_LBL[t]+'</th>').join('')+'<th style="text-align:right">Cartera</th><th style="text-align:right">Objetivo</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  document.getElementById('fe-tit').textContent='Foto de '+nombreMesObj(P.mes)+' desde '+P.archivo;
+}
+document.getElementById('btn-obj-excel').addEventListener('click',()=>{
+  if(!puedeEditarObj()){showToast('No tenés permiso para editar objetivos');return;}
+  document.getElementById('fe-file').click();
+});
+document.getElementById('fe-file').addEventListener('change',function(){
+  const file=this.files[0];this.value='';if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async ev=>{
+    try{
+      const wb=XLSX.read(ev.target.result,{type:'array',cellDates:true});
+      await loadPctMora();await loadFotoMes(objMesActual,true);
+      fotoExcelPend=prepararFotoExcel(wb,file.name);
+      pintarPreviewFotoExcel();
+      document.getElementById('modal-foto-excel').classList.add('open');
+    }catch(e){showToast('No se pudo leer el archivo: '+e.message);}
+  };
+  reader.readAsArrayBuffer(file);
+});
+document.getElementById('fe-cancel').addEventListener('click',()=>{fotoExcelPend=null;document.getElementById('modal-foto-excel').classList.remove('open');});
+document.getElementById('fe-ok').addEventListener('click',async()=>{
+  const P=fotoExcelPend;if(!P)return;
+  const btn=document.getElementById('fe-ok');btn.disabled=true;btn.textContent='Guardando…';
+  try{
+    const previa=await loadFotoMes(P.mes,true);
+    const foto={mes:P.mes,primer_habil:P.ph,fecha_foto:P.ph,tomada_ts:new Date().toISOString(),tomada_por:currentUser?currentUser.nombre:'',motivo:'excel',archivo:P.archivo,clientes:P.filas,pct:normPct((previa&&previa.pct)||objPctGlobal)};
+    await guardarFoto(P.mes,foto,true);
+    await loadFotoMes(P.mes,true);
+    document.getElementById('modal-foto-excel').classList.remove('open');fotoExcelPend=null;
+    showToast('Objetivo de '+nombreMesObj(P.mes)+' fijado con '+P.archivo+' ✓');
+    renderObjetivos();
+  }catch(e){showToast('No se pudo guardar la foto: '+e.message);}
+  finally{btn.disabled=false;btn.textContent='Confirmar y fijar objetivo';}
 });
 
 // ===================== AYUDA / INSTRUCTIVO =====================
