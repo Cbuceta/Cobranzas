@@ -674,6 +674,16 @@ tr:hover td{background:var(--bg3)}
 <li><strong>Calendario:</strong> facturas pendientes por fecha de vencimiento (o por la fecha de compromiso, si se cargó una gestión con fecha). Sábados y domingos se suman al lunes.</li>
 </ul>
 
+<h3 id="a-mailcli">Mail de cobranza al cliente</h3>
+<ul>
+<li>El botón de mail (en la fila del cliente o en su ficha) abre el <strong>mail de cobranza con formato</strong>: saludo con tu nombre, tabla de facturas pendientes separadas por empresa (SPL Distribuidora / Spotsline) con su estado (vencida hace X días o por vencer), total pendiente, el beneficio, los datos bancarios de la empresa que corresponde, cheque al día y contacto.</li>
+<li><strong>Beneficio por pago anticipado:</strong> elegís el % y los días desde la <strong>fecha de emisión</strong> de la factura (no del vencimiento), y marcás <em>a qué facturas</em> aplica (vienen marcadas las que todavía están en plazo). En el mail cada una muestra la etiqueta “7% OFF hasta dd/mm” y el recuadro del beneficio detalla fecha límite, importe original tachado e importe con descuento. Si no marcás ninguna, el beneficio no aparece.</li>
+<li><strong>Registro automático:</strong> con la opción <em>Registrar gestión</em> tildada, al tocar <em>Abrir mi correo</em> o bajar el borrador se guarda sola una gestión en la ficha del cliente (“📧 Mail de cobranza enviado a…, N facturas por $…, beneficio ofrecido en…”), con tu nombre y la fecha. El texto se puede editar antes. Se registra una sola vez por mail; si lo mandaste de otra forma, usá <em>Registrar ahora</em>.</li>
+<li>Antes de enviar podés cambiar la firma, el asunto, el texto del beneficio (o sacarlo) y, si el cliente tiene facturas de las dos empresas, mandar todo junto o solo las de una.</li>
+<li><strong>Cómo se envía:</strong> 1) <em>Copiar mail</em>; 2) <em>Abrir mi correo</em> (abre un mail nuevo con el destinatario y el asunto); 3) en el cuerpo, pegar con <strong>Ctrl+V</strong>. Funciona con Gmail y Outlook. Con Outlook de escritorio también podés usar <em>Borrador para Outlook (.eml)</em>: se descarga y al abrirlo queda listo para enviar.</li>
+<li>Los datos bancarios, el teléfono y el mail de contacto están fijos en el panel; si cambian, pedilo con un Pedido de mejora.</li>
+</ul>
+
 <h3 id="a-tramos">Tipos de deudor (tramos de mora)</h3>
 <div class="tbl"><table>
 <tr><th>Tipo</th><th>Regla</th><th>Qué significa</th></tr>
@@ -758,7 +768,8 @@ tr:hover td{background:var(--bg3)}
 
 <h3 id="a-mail">Informe por mail y mails de vendedores</h3>
 <ul>
-<li>En <em>Reporte</em>, elegí un vendedor y tocá <em>Mail semanal</em>: se arma el resumen de su cartera y el destinatario se completa solo con el mail cargado para ese vendedor.</li>
+<li>En <em>Reporte</em>, elegí un vendedor y tocá <em>Mail semanal</em>: se arma un <strong>informe con formato</strong> (cartera total, deuda vencida, preventivo, % con gestión, avance del objetivo del mes con barra, distribución por tipo de deudor, alerta de clientes sin gestión, tabla de clientes en mora con su última gestión, compromisos y reclamos, y próximos vencimientos). El destinatario se completa solo con el mail cargado para ese vendedor. Se envía igual que el mail al cliente: <em>Copiar informe</em> → <em>Abrir mi correo</em> → Ctrl+V, o con el borrador para Outlook.</li>
+<li>Al enviarlo (abrir correo o descargar el borrador) se suma un reclamo a cada cliente vencido del informe; cuando el vendedor carga una gestión, el contador vuelve a cero.</li>
 <li>Los mails se cargan en <em>Reporte → Mails de vendedores</em> (solo administración). Se puede poner más de un mail separado por coma (ej. vendedor y supervisor). Se guardan para todo el equipo.</li>
 <li>Si un vendedor no tiene mail y lo escribís directamente en el informe, queda guardado para la próxima.</li>
 <li>El nombre del vendedor tiene que coincidir con el que figura en Cartera (el que viene de Odoo).</li>
@@ -779,6 +790,8 @@ tr:hover td{background:var(--bg3)}
 <li><strong>Permisos:</strong> en cada usuario elegís qué <em>solapas</em> ve (Cartera, Cumplimiento, Objetivos, Ayuda) y qué <em>acciones</em> puede hacer (actualizar datos, exportar, reporte y mail, editar objetivos, mails de vendedores, usuarios). Si no tocás nada, usa los permisos predeterminados de su rol: el vendedor ve todas las solapas (solo con sus clientes) pero no actualiza, no exporta ni edita objetivos; administración puede todo. <em>Restablecer según rol</em> vuelve a esos valores.</li>
 <li>Los cambios de permisos rigen desde el próximo ingreso del usuario (se le cierra la sesión abierta). Si alguien queda sin ninguna solapa, ve un aviso para pedir acceso.</li>
 <li>Cuando se agregue una solapa nueva al panel, aparece como una opción más en Permisos para habilitarla usuario por usuario.</li>
+<li><strong>Enviar acceso:</strong> al crear un usuario se propone una clave al azar; al guardar se abre <em>Enviar acceso</em> con un mensaje listo (link, usuario, clave y qué va a poder ver) para mandar por <em>WhatsApp</em>, por mail o copiarlo. El link ya trae el usuario completado. La clave solo se ve en ese momento: si hay que volver a mandarla, el botón <em>Enviar acceso</em> de la lista genera una clave nueva (la anterior deja de funcionar).</li>
+<li><strong>Registro de ingresos:</strong> cada vez que alguien entra queda guardado (fecha, hora, celular o computadora y navegador). En la lista de usuarios, la columna <em>Último ingreso</em> muestra cuándo entró por última vez (gris = nunca, naranja = hace más de 7 días, rojo = más de 30) y un punto verde si tiene el panel abierto en este momento. Tocando esa celda, o con <em>Historial de ingresos</em>, ves el detalle por día y lo podés bajar a Excel. Solo lo ve quien tiene el permiso <em>Usuarios y permisos</em>.</li>
 <li><strong>Cambiar mi clave:</strong> cualquier usuario, con el ícono de llave al lado de su nombre (arriba a la derecha).</li>
 </ul>
 <p class="muted">Técnico: las claves se encriptan en Supabase (bcrypt) dentro de la función <code>secure-write</code>; el panel nunca las guarda. Si al abrir Usuarios aparece “Falta actualizar la función secure-write”, hay que pegar la versión nueva de la función y correr el SQL de instalación.</p>
@@ -895,23 +908,24 @@ tr:hover td{background:var(--bg3)}
 
 <!-- MODAL MAIL SEMANAL VENDEDOR -->
 <div class="modal-bg" id="modal-mail-vendedor">
-  <div class="modal" style="width:640px">
-    <h2><i class="ti ti-mail" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i>Informe semanal por mail</h2>
-    <div class="modal-sub">Revisá o editá el mensaje antes de enviarlo. Se abre en tu programa de mail.</div>
-    <label>Para (email del vendedor)</label>
-    <input type="email" id="mv-para" placeholder="vendedor@empresa.com">
-    <div id="mv-para-hint" style="font-size:11px;color:var(--text3);margin-top:4px"></div>
-    <label>Asunto</label>
-    <input type="text" id="mv-asunto">
-    <label>Mensaje</label>
-    <textarea id="mv-cuerpo" style="min-height:320px;font-family:inherit;line-height:1.5"></textarea>
-    <div class="modal-footer">
-      <button class="btn" id="mv-cancel">Cerrar</button>
-      <button class="btn btn-yellow" id="mv-abrir"><i class="ti ti-mail" style="vertical-align:-2px;margin-right:4px"></i>Abrir en Mail</button>
+  <div class="modal" style="width:820px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h2><i class="ti ti-mail" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i>Informe al vendedor</h2><button class="btn" id="mv-cancel">Cerrar</button></div>
+    <div class="usr-grid" style="margin-top:6px">
+      <div><label>Para (mail del vendedor)</label><input type="email" id="mv-para" placeholder="vendedor@empresa.com"><div id="mv-para-hint" style="font-size:11px;color:var(--text3);margin-top:4px"></div></div>
+      <div><label>Asunto</label><input type="text" id="mv-asunto"></div>
+      <div style="grid-column:1/-1"><label>Mensaje para el vendedor (aparece destacado al final)</label><textarea id="mv-nota" style="min-height:60px"></textarea></div>
+    </div>
+    <textarea id="mv-cuerpo" hidden></textarea>
+    <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px">Vista previa</div>
+    <iframe id="mv-preview" title="Vista previa del informe" style="width:100%;height:48vh;border:0;border-radius:10px;background:#f2f2f2"></iframe>
+    <div id="mv-paso" style="font-size:12.5px;color:var(--text2);margin-top:10px;min-height:18px"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn btn-yellow" id="mv-copiar"><i class="ti ti-copy"></i> 1 · Copiar informe</button>
+      <button class="btn btn-yellow" id="mv-abrir"><i class="ti ti-external-link"></i> 2 · Abrir mi correo</button>
+      <button class="btn" id="mv-eml" style="margin-left:auto"><i class="ti ti-download"></i> Borrador para Outlook (.eml)</button>
     </div>
   </div>
 </div>
-
 
 <!-- MODAL MAILS DE VENDEDORES -->
 <div class="modal-bg" id="modal-mails-vend">
@@ -930,11 +944,12 @@ tr:hover td{background:var(--bg3)}
 
 <!-- MODAL USUARIOS -->
 <div class="modal-bg" id="modal-usuarios">
-  <div class="modal" style="width:980px">
+  <div class="modal" style="width:1080px">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h2><i class="ti ti-users" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i>Usuarios y permisos</h2><button class="btn" id="usr-cerrar">Cerrar</button></div>
     <div class="modal-sub" style="margin-top:6px">Alta, baja y cambio de clave de quienes entran al panel. Un usuario <strong>vendedor</strong> solo ve los clientes del vendedor asignado (tiene que escribirse igual que en Cartera). Las claves se guardan encriptadas: nadie puede verlas, solo cambiarlas. <span class="help-link" data-ayuda="a-usuarios">Ver instructivo ›</span></div>
     <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
       <input type="text" id="usr-buscar" placeholder="Buscar por nombre, usuario, vendedor o mail…" style="flex:1;min-width:220px">
+      <button class="btn" id="usr-historial"><i class="ti ti-history"></i> Historial de ingresos</button>
       <button class="btn btn-yellow" id="usr-nuevo"><i class="ti ti-user-plus"></i> Nuevo usuario</button>
     </div>
     <div class="cump-panel" id="usr-form" hidden style="border-color:var(--yellow-dim2)">
@@ -971,6 +986,76 @@ tr:hover td{background:var(--bg3)}
     <label>Repetir clave nueva</label><input type="password" id="mc-repetir" autocomplete="new-password">
     <div id="mc-err" style="color:var(--red);font-size:12.5px;min-height:18px;margin-top:8px"></div>
     <div class="modal-footer"><button class="btn" id="mc-cancel">Cancelar</button><button class="btn btn-yellow" id="mc-ok">Cambiar clave</button></div>
+  </div>
+</div>
+
+
+<!-- MODAL COMPARTIR ACCESO -->
+<div class="modal-bg" id="modal-compartir" style="z-index:260">
+  <div class="modal" style="width:560px">
+    <h2><i class="ti ti-send" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i><span id="comp-tit">Enviar acceso</span></h2>
+    <div class="modal-sub">Este es el único momento en que se ve la clave. Mandala ahora por WhatsApp, mail o copiala. Podés editar el mensaje antes de enviarlo.</div>
+    <textarea id="comp-msg" style="min-height:220px;line-height:1.5"></textarea>
+    <label>WhatsApp del usuario <span style="color:var(--text3)">(opcional: si lo dejás vacío, WhatsApp te deja elegir el contacto)</span></label>
+    <input type="text" id="comp-tel" placeholder="Ej: 11 5544 3322">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn btn-yellow" id="comp-wa"><i class="ti ti-brand-whatsapp"></i> Enviar por WhatsApp</button>
+      <button class="btn" id="comp-copiar"><i class="ti ti-copy"></i> Copiar mensaje</button>
+      <button class="btn" id="comp-copiar-link" title="Solo el link, sin usuario ni clave"><i class="ti ti-link"></i> Copiar solo el link</button>
+      <button class="btn" id="comp-mail"><i class="ti ti-mail"></i> Mail</button>
+    </div>
+    <div class="modal-footer"><button class="btn" id="comp-cerrar">Listo</button></div>
+  </div>
+</div>
+
+
+<!-- MODAL HISTORIAL DE INGRESOS -->
+<div class="modal-bg" id="modal-ingresos" style="z-index:260">
+  <div class="modal" style="width:720px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h2><i class="ti ti-history" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i>Historial de ingresos</h2><button class="btn" id="ing-cerrar">Cerrar</button></div>
+    <div class="modal-sub" style="margin-top:6px">Cada vez que alguien entra al panel queda registrado con fecha, hora y dispositivo.</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap"><select id="ing-usuario" style="flex:1;min-width:200px"></select><button class="btn" id="ing-exportar"><i class="ti ti-file-spreadsheet"></i> Excel</button></div>
+    <div class="table-scroll" id="ing-tabla" style="max-height:55vh;overflow:auto"></div>
+  </div>
+</div>
+
+
+<!-- MODAL MAIL AL CLIENTE -->
+<div class="modal-bg" id="modal-mail-cliente" style="z-index:240">
+  <div class="modal" style="width:820px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h2><i class="ti ti-mail" style="vertical-align:-2px;margin-right:8px;color:var(--yellow)"></i><span id="mc-tit">Mail al cliente</span></h2><button class="btn" id="mc-cerrar">Cerrar</button></div>
+    <div class="usr-grid" style="margin-top:6px">
+      <div><label>Para</label><input type="text" id="mc-para" placeholder="mail del cliente"></div>
+      <div><label>Firma (quien envía)</label><input type="text" id="mc-remitente" placeholder="Tu nombre"></div>
+      <div style="grid-column:1/-1"><label>Asunto</label><input type="text" id="mc-asunto"></div>
+      <div id="mc-empresa-wrap" style="grid-column:1/-1"><label>Facturas a incluir</label><select id="mc-empresa" style="width:100%"></select></div>
+      <div style="grid-column:1/-1"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="mc-benef-on" style="width:auto"> Incluir beneficio por pago anticipado</label>
+        <div id="mc-benef-cfg" class="perm-box" style="margin-top:6px">
+          <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+            <div><label style="margin-top:0">% descuento</label><input type="number" id="mc-pct" min="0" max="100" step="0.5" style="width:90px"></div>
+            <div><label style="margin-top:0">Días desde la emisión</label><input type="number" id="mc-dias" min="0" max="90" style="width:130px"></div>
+            <div style="flex:1;min-width:220px"><label style="margin-top:0">Texto del beneficio</label><input type="text" id="mc-beneficio"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px;flex-wrap:wrap"><strong style="font-size:12.5px">¿A qué facturas aplica?</strong><span><button class="link-btn" type="button" id="mc-benef-todas">Todas</button> <button class="link-btn" type="button" id="mc-benef-ninguna">Ninguna</button></span></div>
+          <div style="font-size:11px;color:var(--text3);margin:2px 0 4px">El plazo se cuenta desde la <strong>fecha de emisión</strong> de cada factura (no del vencimiento). Vienen marcadas las que todavía están en plazo; marcá o desmarcá las que quieras.</div>
+          <div id="mc-benef-lista" style="max-height:170px;overflow:auto"></div>
+          <div id="mc-benef-aviso" style="font-size:12px;color:var(--orange);margin-top:4px"></div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px">Vista previa</div>
+    <iframe id="mc-preview" title="Vista previa del mail" style="width:100%;height:48vh;border:0;border-radius:10px;background:#f2f2f2"></iframe>
+    <div class="perm-box" style="margin-top:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin:0"><input type="checkbox" id="mc-gestion-on" style="width:auto" checked> Registrar gestión en la ficha del cliente al enviar</label><button class="link-btn" type="button" id="mc-gestion-ahora" title="Si lo mandaste copiando y pegando sin usar Abrir mi correo">Registrar ahora</button></div>
+      <input type="text" id="mc-gestion-txt" style="margin-top:6px">
+      <div id="mc-gestion-estado" style="font-size:12px;margin-top:4px;min-height:16px"></div>
+    </div>
+    <div id="mc-paso" style="font-size:12.5px;color:var(--text2);margin-top:10px;min-height:18px"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button class="btn btn-yellow" id="mc-copiar"><i class="ti ti-copy"></i> 1 · Copiar mail</button>
+      <button class="btn btn-yellow" id="mc-abrir"><i class="ti ti-external-link"></i> 2 · Abrir mi correo</button>
+      <button class="btn" id="mc-eml" title="Borrador listo para Outlook de escritorio" style="margin-left:auto"><i class="ti ti-download"></i> Borrador para Outlook (.eml)</button>
+    </div>
   </div>
 </div>
 
@@ -1539,7 +1624,7 @@ function render(){
     const vendTag=getVend(i)?'<span class="vend-tag">'+getVend(i)+'</span>':'<span style="color:var(--text3);font-size:11px">—</span>';
     const invs=c.facturas.slice(0,2).map(f=>{const et=f.emp?'<span class="inv-emp '+(f.emp==='SPL'?'ie-spl':'ie-spots')+'">'+(f.emp==='SPL'?'SPL':'SL')+'</span>':'';return'<span class="inv-line">'+f.num+et+' · '+fmtN(f.monto)+'</span>';}).join('')+(c.facturas.length>2?'<span class="inv-line" style="color:var(--text3)">+'+( c.facturas.length-2)+' más</span>':'');
     const dias=c.dias_vencidos>0?'<span class="dias-neg">+'+c.dias_vencidos+'d</span>':'<span class="dias-ok">'+c.dias_vencidos+'d</span>';
-    return'<tr><td><span style="font-weight:600">'+c.nombre+'</span>'+nota+ciudad+'</td><td>'+empBadge(c.empresa)+'</td><td>'+vendTag+'</td><td><span class="badge '+bc(t)+'">'+t+'</span></td><td style="text-align:center">'+dias+'</td><td class="amount">'+fmtN(c.deuda)+'</td><td>'+invs+'</td><td><div class="actions">'+(wa?'<a class="act-btn wa" href="'+wa+'" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>':'<span class="act-btn disabled"><i class="ti ti-brand-whatsapp"></i></span>')+(ml?'<a class="act-btn em" href="'+ml+'"><i class="ti ti-mail"></i></a>':'<span class="act-btn disabled"><i class="ti ti-mail"></i></span>')+'<button class="act-btn nt" onclick="openModal('+i+')"><i class="ti ti-notes"></i></button></div></td></tr>';
+    return'<tr><td><span style="font-weight:600">'+c.nombre+'</span>'+nota+ciudad+'</td><td>'+empBadge(c.empresa)+'</td><td>'+vendTag+'</td><td><span class="badge '+bc(t)+'">'+t+'</span></td><td style="text-align:center">'+dias+'</td><td class="amount">'+fmtN(c.deuda)+'</td><td>'+invs+'</td><td><div class="actions">'+(wa?'<a class="act-btn wa" href="'+wa+'" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>':'<span class="act-btn disabled"><i class="ti ti-brand-whatsapp"></i></span>')+(ml?'<a class="act-btn em" href="'+ml+'" data-mail-idx="'+i+'" title="Mail de cobranza con formato"><i class="ti ti-mail"></i></a>':'<span class="act-btn disabled"><i class="ti ti-mail"></i></span>')+'<button class="act-btn nt" onclick="openModal('+i+')"><i class="ti ti-notes"></i></button></div></td></tr>';
   }).join('');
   renderPag(data.length);
 }
@@ -2158,33 +2243,25 @@ document.getElementById('btn-rep-mail').addEventListener('click',async()=>{
   if(!mailV&&puede('usuarios')){try{if(!usuariosAdmin.length)await cargarUsuariosAdmin();const u=usuariosAdmin.find(x=>x.activo!==false&&x.email&&normCli(x.vendedor_nombre)===normCli(fv));if(u)mailV=u.email;}catch(_){}}
   document.getElementById('mv-para').value=mailV;
   document.getElementById('mv-para-hint').innerHTML=mailV?'Mail cargado en <em>Mails de vendedores</em>.':'Este vendedor no tiene mail cargado. Si lo escribís acá, queda guardado para la próxima.';
-  document.getElementById('mv-asunto').value='Informe semanal de cobranzas — '+fv+' — '+hoy;
+  document.getElementById('mv-asunto').value='Informe de cobranzas — '+fv+' — '+hoy;
   document.getElementById('mv-cuerpo').value=cuerpo;
+  document.getElementById('mv-nota').value='Por favor priorizá el contacto con los clientes en mora crítica y actualizá las gestiones pendientes en el panel.';
+  document.getElementById('mv-paso').innerHTML='';
+  const remitenteMv=currentUser?String(currentUser.nombre||''):'';
+  mvEstado={fv,d,hoy,vencidos,preventivos,totalVencido,totalPreventivo,remitente:remitenteMv,obj:null};
+  refrescarMailVendedor();
   document.getElementById('modal-mail-vendedor').classList.add('open');
+  datosObjetivoVendedor(fv).then(o=>{if(mvEstado&&mvEstado.fv===fv&&o){mvEstado.obj=o;refrescarMailVendedor();}});
 });
 document.getElementById('mv-cancel').addEventListener('click',()=>document.getElementById('modal-mail-vendedor').classList.remove('open'));
 document.getElementById('modal-mail-vendedor').addEventListener('click',e=>{if(e.target===document.getElementById('modal-mail-vendedor'))document.getElementById('modal-mail-vendedor').classList.remove('open');});
 document.getElementById('mv-abrir').addEventListener('click',()=>{
   const para=document.getElementById('mv-para').value.trim();
   const asunto=document.getElementById('mv-asunto').value;
-  // Si se escribió un mail nuevo para el vendedor, se recuerda (solo admin)
-  if(mvVendedorActual&&para&&mailsValidos(para)&&normMails(para)!==normMails(mailDeVendedor(mvVendedorActual))&&puede('mails_vendedores')){
-    const v=mvVendedorActual;guardarMailsVendedores(m=>{m[v]=normMails(para);}).then(()=>showToast('Mail de '+v+' guardado ✓')).catch(()=>{});
-  }
-  const cuerpo=document.getElementById('mv-cuerpo').value;
-  const link='mailto:'+encodeURIComponent(para)+'?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo);
-  window.location.href=link;
-  if(mailVencidosActuales.length){
-    secureWrite('registrar_reclamo',{clientes:mailVencidosActuales}).then(ok=>{
-      if(ok){
-        mailVencidosActuales.forEach(nombre=>{
-          const prev=reclamos[nombre];
-          reclamos[nombre]=prev?{...prev,veces:(prev.veces||0)+1}:{cliente:nombre,veces:1};
-        });
-      }
-    });
-    mailVencidosActuales=[];
-  }
+  recordarMailVendedor();
+  window.location.href='mailto:'+encodeURIComponent(para)+'?subject='+encodeURIComponent(asunto);
+  registrarReclamoInforme();
+  document.getElementById('mv-paso').innerHTML='Se abrió tu correo con destinatario y asunto. Pegá el informe con <strong>Ctrl+V</strong> (si no lo copiaste, tocá <strong>Copiar informe</strong>).';
 });
 
 // --- UPLOAD ---
@@ -3622,15 +3699,15 @@ function pintarUsuarios(){
     .sort((a,b)=>(b.activo!==false)-(a.activo!==false)||String(a.nombre).localeCompare(String(b.nombre),'es'));
   if(!ls.length){wrap.innerHTML='<div style="color:var(--text3);font-size:12.5px;padding:8px 0">'+(usuariosAdmin.length?'Ningún usuario coincide.':'Todavía no hay usuarios.')+'</div>';return;}
   const vendCart=new Set(vendedoresCartera());
-  wrap.innerHTML='<table class="obj-cfg" style="min-width:780px"><thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Vendedor asignado</th><th>Mail</th><th>Permisos</th><th>Estado</th><th></th></tr></thead><tbody>'
+  wrap.innerHTML='<table class="obj-cfg" style="min-width:900px"><thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Vendedor asignado</th><th>Mail</th><th>Permisos</th><th>Último ingreso</th><th>Estado</th><th></th></tr></thead><tbody>'
     +ls.map(u=>{
       const act=u.activo!==false;
       const vWarn=u.rol==='vendedor'&&u.vendedor_nombre&&!vendCart.has(u.vendedor_nombre)?' <i class="ti ti-alert-triangle" style="color:var(--orange)" title="No coincide con ningún vendedor de la Cartera actual"></i>':'';
       return '<tr style="'+(act?'':'opacity:.5')+'"><td style="font-weight:600">'+escH(u.nombre)+(currentUser&&u.usuario===currentUser.usuario?' <span class="ped-tag" style="font-size:10px">vos</span>':'')+'</td>'
         +'<td><code style="font-size:12px">'+escH(u.usuario)+'</code></td><td>'+escH(u.rol||'')+'</td>'
-        +'<td>'+escH(u.vendedor_nombre||'—')+vWarn+'</td><td style="font-size:12px">'+escH(u.email||'—')+'</td><td>'+resumenPermisos(u)+'</td>'
+        +'<td>'+escH(u.vendedor_nombre||'—')+vWarn+'</td><td style="font-size:12px">'+escH(u.email||'—')+'</td><td>'+resumenPermisos(u)+'</td><td style="white-space:nowrap"><a href="#" class="ing-link" data-usr-ing="'+escH(u.usuario)+'" title="Ver sus ingresos" style="text-decoration:none">'+celdaIngreso(u)+'</a></td>'
         +'<td>'+(act?'<span class="badge b-prev">Activo</span>':'<span class="badge b-ambas">Inactivo</span>')+'</td>'
-        +'<td style="white-space:nowrap"><button class="link-btn" data-usr-edit="'+escH(u.usuario)+'">Editar</button></td></tr>';
+        +'<td style="white-space:nowrap"><button class="link-btn" data-usr-edit="'+escH(u.usuario)+'">Editar</button> '+(act&&!(currentUser&&u.usuario===currentUser.usuario)?'<button class="link-btn" data-usr-share="'+escH(u.usuario)+'" title="Genera una clave nueva y arma el mensaje para WhatsApp o para copiar"><i class="ti ti-send"></i> Enviar acceso</button>':'')+'</td></tr>';
     }).join('')+'</tbody></table>';
 }
 function abrirFormUsuario(u){
@@ -3646,7 +3723,8 @@ function abrirFormUsuario(u){
   document.getElementById('usr-vend-list').innerHTML=vendedoresCartera().map(v=>'<option value="'+escH(v)+'">').join('');
   document.getElementById('usr-f-email').value=u?u.email||'':'';
   document.getElementById('usr-f-activo').checked=u?u.activo!==false:true;
-  document.getElementById('usr-f-pass').value='';
+  document.getElementById('usr-f-pass').value=u?'':generarClave();
+  document.getElementById('usr-f-pass').type=u?'password':'text';
   document.getElementById('usr-f-pass-lbl').textContent=u?'Nueva clave (dejar vacío para no cambiarla)':'Clave inicial (mínimo 6 caracteres)';
   document.getElementById('usr-f-err').textContent='';
   pintarPermisosForm(permisosEfectivos(u||{rol:sr.value}));
@@ -3702,7 +3780,7 @@ document.getElementById('btn-usuarios').addEventListener('click',async()=>{
 });
 document.getElementById('usr-buscar').addEventListener('input',pintarUsuarios);
 document.getElementById('usr-nuevo').addEventListener('click',()=>abrirFormUsuario(null));
-document.getElementById('usr-tabla').addEventListener('click',e=>{const b=e.target.closest('[data-usr-edit]');if(b)abrirFormUsuario(usuariosAdmin.find(u=>u.usuario===b.dataset.usrEdit));});
+document.getElementById('usr-tabla').addEventListener('click',e=>{const b=e.target.closest('[data-usr-edit]');if(b)abrirFormUsuario(usuariosAdmin.find(u=>u.usuario===b.dataset.usrEdit));const sh=e.target.closest('[data-usr-share]');if(sh)compartirAccesoExistente(sh.dataset.usrShare);const ig=e.target.closest('[data-usr-ing]');if(ig){e.preventDefault();abrirHistorialIngresos(ig.dataset.usrIng);}});
 document.getElementById('usr-f-rol').addEventListener('change',()=>{actualizarVendVisible();if(!usrEditando)pintarPermisosForm(permisosPorDefecto(document.getElementById('usr-f-rol').value));pintarCarteraForm(usrEditando?Object.assign({},usuariosAdmin.find(x=>x.usuario===usrEditando),{permisos:{cartera:leerCarteraForm()}}):{permisos:{}});});
 document.getElementById('usr-f-vend').addEventListener('change',()=>pintarCarteraForm({permisos:{cartera:leerCarteraForm()}}));
 document.getElementById('usr-f-perm-reset').addEventListener('click',()=>{pintarPermisosForm(permisosPorDefecto(document.getElementById('usr-f-rol').value));pintarCarteraForm({permisos:{}});});
@@ -3735,9 +3813,10 @@ document.getElementById('usr-f-guardar').addEventListener('click',async()=>{
     if(p.rol==='vendedor'&&p.vendedor_nombre&&p.email){
       try{await guardarMailsVendedores(m=>{const prev=m[p.vendedor_nombre];const lista=String(prev||'').split(/[,;\s]+/).filter(Boolean);if(!lista.includes(p.email.toLowerCase()))lista.unshift(p.email.toLowerCase());m[p.vendedor_nombre]=lista.join(', ');});}catch(_){}
     }
-    showToast(p.nuevo?'Usuario creado ✓'+(p.password?' — pasale la clave al usuario':''):'Usuario actualizado ✓');
+    showToast(p.nuevo?'Usuario creado ✓':'Usuario actualizado ✓');
     document.getElementById('usr-form').hidden=true;
     await cargarUsuariosAdmin();pintarUsuarios();loadUsuarios();
+    if(p.password&&p.activo&&!(currentUser&&p.usuario===currentUser.usuario))abrirCompartir(usuariosAdmin.find(x=>x.usuario===p.usuario)||p,p.password);
   }catch(e){err.textContent=e.message;}
   finally{btn.disabled=false;btn.textContent='Guardar';}
 });
@@ -3755,6 +3834,514 @@ document.getElementById('mc-ok').addEventListener('click',async()=>{
   if(n!==r){err.textContent='Las dos claves nuevas no coinciden.';return;}
   try{await secureCall('cambiar_mi_clave',{actual:a,nueva:n});document.getElementById('modal-mi-clave').classList.remove('open');showToast('Clave cambiada ✓');}
   catch(e){err.textContent=e.message;}
+});
+
+// ===================== COMPARTIR ACCESO (WhatsApp / copiar / mail) =====================
+// La clave solo se conoce al crearla o cambiarla: por eso "Compartir acceso" de un usuario existente
+// genera una clave nueva (la anterior deja de funcionar).
+const PANEL_URL='https://cbuceta.github.io/Cobranzas/';
+let compartirActual=null;
+function linkAcceso(usuario){return PANEL_URL+'?u='+encodeURIComponent(usuario);}
+function textoQueVe(u){
+  const p=permisosEfectivos(u);
+  const sol=PERMISOS_DEF.filter(d=>d.grupo==='solapa'&&p[d.k]&&d.k!=='tab_ayuda').map(d=>d.lbl);
+  const cs=carteraDe(u);
+  const vends=cs?vendedoresCartera().filter(v=>cs.has(normCli(v))):null;
+  let cart=!cs?'todas las carteras':(vends&&vends.length?(vends.length===1?'la cartera de '+vends[0]:'las carteras de '+vends.join(', ')):'tu cartera');
+  return (sol.length?sol.join(', '):'(sin solapas habilitadas)')+' — con '+cart;
+}
+function armarMensajeAcceso(u,clave){
+  const nombre=String(u.nombre||'').split(' ')[0]||u.usuario;
+  return 'Hola '+nombre+'! Te paso el acceso al Panel de Cobranzas de SPL / Spotsline:\n\n'
+    +'Link: '+linkAcceso(u.usuario)+'\n'
+    +'Usuario: '+u.usuario+'\n'
+    +'Clave: '+clave+'\n\n'
+    +'Vas a poder ver: '+textoQueVe(u)+'.\n\n'
+    +'Cuando entres, cambiá la clave desde el ícono de la llave (arriba a la derecha, al lado de tu nombre). No compartas estos datos.';
+}
+function abrirCompartir(u,clave){
+  compartirActual={u,clave};
+  document.getElementById('comp-tit').textContent='Enviar acceso a '+(u.nombre||u.usuario);
+  document.getElementById('comp-msg').value=armarMensajeAcceso(u,clave);
+  document.getElementById('comp-tel').value='';
+  const bm=document.getElementById('comp-mail');bm.style.display=u.email?'':'none';
+  document.getElementById('modal-compartir').classList.add('open');
+}
+document.getElementById('comp-copiar').addEventListener('click',async()=>{
+  const ok=await copiarTexto(document.getElementById('comp-msg').value);
+  showToast(ok?'Mensaje copiado ✓ — pegalo donde quieras':'No se pudo copiar, seleccionalo a mano');
+});
+document.getElementById('comp-copiar-link').addEventListener('click',async()=>{
+  if(!compartirActual)return;const ok=await copiarTexto(linkAcceso(compartirActual.u.usuario));
+  showToast(ok?'Link copiado ✓ (sin la clave)':'No se pudo copiar');
+});
+document.getElementById('comp-wa').addEventListener('click',()=>{
+  let tel=document.getElementById('comp-tel').value.replace(/\D/g,'');
+  if(tel&&!tel.startsWith('54'))tel='54'+(tel.startsWith('9')?'':'9')+tel.replace(/^0/,'').replace(/^(\d{2,4})15/,'$1');
+  window.open('https://wa.me/'+(tel||'')+'?text='+encodeURIComponent(document.getElementById('comp-msg').value),'_blank');
+});
+document.getElementById('comp-mail').addEventListener('click',()=>{
+  if(!compartirActual||!compartirActual.u.email)return;
+  window.location.href='mailto:'+encodeURIComponent(compartirActual.u.email)+'?subject='+encodeURIComponent('Acceso al Panel de Cobranzas')+'&body='+encodeURIComponent(document.getElementById('comp-msg').value);
+});
+document.getElementById('comp-cerrar').addEventListener('click',()=>document.getElementById('modal-compartir').classList.remove('open'));
+// Desde la lista: genera clave nueva y abre el envío
+async function compartirAccesoExistente(usuario){
+  const u=usuariosAdmin.find(x=>x.usuario===usuario);if(!u)return;
+  if(u.activo===false){showToast('El usuario está inactivo: activalo primero');return;}
+  if(currentUser&&u.usuario===currentUser.usuario){showToast('Para tu propio usuario usá "Cambiar mi clave"');return;}
+  if(!confirm('Se va a generar una clave NUEVA para '+u.nombre+' (la anterior deja de funcionar y se le cierra la sesión abierta).\n\n¿Seguimos?'))return;
+  const clave=generarClave();
+  try{
+    await secureCall('save_usuario',{nuevo:false,usuario:u.usuario,nombre:u.nombre,rol:u.rol,vendedor_nombre:u.vendedor_nombre||'',email:u.email||'',activo:true,password:clave,permisos:u.permisos||undefined});
+    await cargarUsuariosAdmin();pintarUsuarios();
+    abrirCompartir(usuariosAdmin.find(x=>x.usuario===usuario)||u,clave);
+  }catch(e){showToast('No se pudo generar la clave: '+e.message);}
+}
+// Link con ?u=usuario: completa el usuario en la pantalla de ingreso
+(function(){try{const u=new URLSearchParams(location.search).get('u');if(u){const i=document.getElementById('login-user');i.value=u;setTimeout(()=>document.getElementById('login-pass').focus(),50);}}catch(_){}})();
+
+// ===================== REGISTRO DE INGRESOS =====================
+// Al entrar se registra el ingreso (usuario, fecha y hora, dispositivo). Mientras el panel está abierto,
+// cada 5 minutos se marca la "última actividad". Todo pasa por secure-write; si la función todavía no
+// está actualizada, falla en silencio y el panel sigue funcionando igual.
+function infoDispositivo(){
+  const ua=navigator.userAgent||'';
+  const disp=/iPad|Tablet/i.test(ua)?'Tablet':(/Mobi|Android|iPhone/i.test(ua)?'Celular':'Computadora');
+  const nav=/Edg\//.test(ua)?'Edge':/OPR\//.test(ua)?'Opera':/Chrome\//.test(ua)?'Chrome':/Firefox\//.test(ua)?'Firefox':/Safari\//.test(ua)?'Safari':'Otro';
+  const so=/Windows/i.test(ua)?'Windows':/Android/i.test(ua)?'Android':/iPhone|iPad|iOS/i.test(ua)?'iOS':/Mac OS/i.test(ua)?'Mac':/Linux/i.test(ua)?'Linux':'';
+  return{dispositivo:disp,navegador:nav+(so?' · '+so:'')};
+}
+let pingTimer=null;
+function registrarIngreso(){
+  secureCall('registrar_ingreso',infoDispositivo()).catch(e=>console.warn('No se registró el ingreso:',e.message));
+  if(pingTimer)clearInterval(pingTimer);
+  pingTimer=setInterval(()=>{if(currentUser&&currentToken&&document.visibilityState==='visible')secureCall('ping',{}).catch(()=>{});},5*60*1000);
+}
+function haceCuanto(iso){
+  if(!iso)return'';
+  const d=new Date(iso),ahora=new Date();
+  const min=Math.round((ahora-d)/60000);
+  if(min<2)return'recién';if(min<60)return'hace '+min+' min';
+  const h=Math.round(min/60);if(h<24&&d.getDate()===ahora.getDate())return'hoy '+d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+  const ay=new Date(ahora);ay.setDate(ay.getDate()-1);
+  if(d.toDateString()===ay.toDateString())return'ayer '+d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+  const dias=Math.floor((ahora-d)/86400000);
+  if(dias<7)return'hace '+dias+' días';
+  return d.toLocaleDateString('es-AR');
+}
+function celdaIngreso(u){
+  if(!u.ultimo_ingreso)return'<span style="color:var(--text3);font-size:12px">nunca</span>';
+  const enLinea=u.ultima_actividad&&(new Date()-new Date(u.ultima_actividad))<10*60000;
+  const dias=(new Date()-new Date(u.ultimo_ingreso))/86400000;
+  const col=dias>30?'var(--red)':dias>7?'var(--orange)':'var(--text)';
+  return(enLinea?'<span title="Con el panel abierto ahora" style="display:inline-block;width:8px;height:8px;border-radius:99px;background:var(--green);margin-right:5px"></span>':'')
+    +'<span style="font-size:12px;color:'+col+'" title="'+new Date(u.ultimo_ingreso).toLocaleString('es-AR')+'">'+haceCuanto(u.ultimo_ingreso)+'</span>';
+}
+let ingresosCache=[];
+async function abrirHistorialIngresos(usuario){
+  const wrap=document.getElementById('ing-tabla');
+  const sel=document.getElementById('ing-usuario');
+  sel.innerHTML='<option value="">Todos los usuarios</option>'+usuariosAdmin.slice().sort((a,b)=>String(a.nombre).localeCompare(String(b.nombre),'es')).map(u=>'<option value="'+escH(u.usuario)+'">'+escH(u.nombre)+' ('+escH(u.usuario)+')</option>').join('');
+  sel.value=usuario||'';
+  document.getElementById('modal-ingresos').classList.add('open');
+  await cargarIngresos();
+}
+async function cargarIngresos(){
+  const wrap=document.getElementById('ing-tabla');
+  wrap.innerHTML='<div style="color:var(--text3);font-size:12.5px">Cargando…</div>';
+  try{
+    const d=await secureCall('list_ingresos',{usuario:document.getElementById('ing-usuario').value||undefined,limite:500});
+    ingresosCache=d.ingresos||[];
+    if(!ingresosCache.length){wrap.innerHTML='<div style="color:var(--text3);font-size:12.5px;padding:8px 0">Todavía no hay ingresos registrados. El registro empieza a partir de esta versión.</div>';return;}
+    const porDia={};ingresosCache.forEach(r=>{const k=new Date(r.ts).toLocaleDateString('es-AR');(porDia[k]=porDia[k]||[]).push(r);});
+    wrap.innerHTML='<div style="font-size:12px;color:var(--text3);margin-bottom:6px">'+ingresosCache.length+' ingresos'+(ingresosCache.length>=500?' (últimos 500)':'')+'</div>'
+      +'<table class="obj-cfg" style="min-width:0"><thead><tr><th>Fecha y hora</th><th>Usuario</th><th>Rol</th><th>Dispositivo</th></tr></thead><tbody>'
+      +Object.entries(porDia).map(([dia,rs])=>'<tr><td colspan="4" style="background:var(--bg3);font-weight:700;font-size:11.5px;color:var(--yellow)">'+dia+' · '+rs.length+' ingreso'+(rs.length!==1?'s':'')+'</td></tr>'
+        +rs.map(r=>'<tr><td style="white-space:nowrap">'+new Date(r.ts).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})+'</td><td><strong>'+escH(r.nombre||'')+'</strong> <code style="font-size:11px;color:var(--text3)">'+escH(r.usuario)+'</code></td><td>'+escH(r.rol||'')+'</td><td style="font-size:12px;color:var(--text2)">'+escH(r.dispositivo||'')+(r.navegador?' · '+escH(r.navegador):'')+'</td></tr>').join('')).join('')
+      +'</tbody></table>';
+  }catch(e){
+    wrap.innerHTML='<div class="cump-banner" style="background:var(--orange-bg);border-color:#3a2510"><i class="ti ti-alert-triangle" style="color:var(--orange)"></i><div>'+escH(/Acci|secure-write/.test(e.message)?'Falta actualizar secure-write y correr 4_sql_ingresos.sql (ver supabase_instalar).':e.message)+'</div></div>';
+  }
+}
+document.getElementById('ing-usuario').addEventListener('change',cargarIngresos);
+document.getElementById('ing-cerrar').addEventListener('click',()=>document.getElementById('modal-ingresos').classList.remove('open'));
+document.getElementById('usr-historial').addEventListener('click',()=>abrirHistorialIngresos(''));
+document.getElementById('ing-exportar').addEventListener('click',()=>{
+  if(!ingresosCache.length)return;
+  const rows=[['Fecha','Hora','Usuario','Nombre','Rol','Dispositivo','Navegador']].concat(ingresosCache.map(r=>{const d=new Date(r.ts);return[d.toLocaleDateString('es-AR'),d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),r.usuario,r.nombre||'',r.rol||'',r.dispositivo||'',r.navegador||''];}));
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Ingresos');XLSX.writeFile(wb,'ingresos_panel_cobranzas_'+hoyISO()+'.xlsx');
+});
+
+// ===================== MAIL AL CLIENTE (plantilla con formato) =====================
+// Arma un mail en HTML (colores, tabla de facturas por empresa, beneficio y datos bancarios).
+// mailto no admite formato, así que se COPIA con formato y se pega en el correo (Gmail/Outlook),
+// o se descarga como borrador .eml para Outlook.
+const EMPRESAS_COBRO={
+  'SPL':{nombre:'SPL Distribuidora',razon:'SPL Distribuidora S.R.L',color:'#1f6fb2',
+    banco:'Banco Credicoop',titular:'SPL DISTRIBUIDORA',cuit:'30-71654080-0',cuenta:'Cuenta corriente 191-033-008521/0',cbu:'1910033955003300852100',alias:'spldistribuidorasrl'},
+  'Spotsline':{nombre:'Spotsline',razon:'SPOTSLINE S.R.L',color:'#c99a00',
+    banco:'Banco Credicoop',titular:'SPOTSLINE SRL',cuit:'30-70957243-8',cuenta:'Cuenta corriente 017486/2 · Suc. 033',cbu:'1910033955003301748628',alias:'SPOTSLINECREDICOOP'}
+};
+const CONTACTO_COBRANZAS={tel:'11-6467-9849',mail:'cobranza@spotsline.com.ar'};
+const BENEFICIO_DEFAULT='7% de descuento por pago anticipado si abonás dentro de los 5 días de emitida la factura.';
+let mailCliIdx=null,mcBenefEditado=false,mcGestionEditada=false,mcGestionHecha=false;
+function addDias(iso,n){if(!iso||iso==='-')return null;const d=new Date(iso+'T00:00:00');if(isNaN(d))return null;d.setDate(d.getDate()+n);return isoLocal(d);}
+function textoBeneficio(pct,dias){return pct+'% de descuento por pago anticipado si abonás dentro de los '+dias+' días de emitida la factura.';}
+function empDeFactura(f,c){if(f.emp==='SPL'||f.emp==='Spotsline')return f.emp;if(c.empresa==='SPL'||c.empresa==='Spotsline')return c.empresa;return 'SPL';}
+function fFecha(iso){return iso&&iso!=='-'?fmtFecha(iso):'—';}
+function construirMailCliente(c,opt){
+  const benefSet=new Set(opt.beneficio?(opt.beneficioFacturas||[]):[]);
+  const grupos={};(c.facturas||[]).forEach(f=>{const e=empDeFactura(f,c);(grupos[e]=grupos[e]||[]).push(f);});
+  const emps=Object.keys(grupos).filter(e=>!opt.empresa||e===opt.empresa).sort();
+  const nombresEmp=emps.map(e=>EMPRESAS_COBRO[e].nombre).join(' y ');
+  const hoy=new Date();hoy.setHours(0,0,0,0);
+  const total=emps.reduce((s,e)=>s+grupos[e].reduce((x,f)=>x+(f.monto||0),0),0);
+  const money=n=>'$ '+Number(n||0).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const F="font-family:Arial,Helvetica,sans-serif;";
+  const tablaEmp=e=>{
+    const E=EMPRESAS_COBRO[e];const fs=grupos[e].slice().sort((a,b)=>String(a.vto).localeCompare(String(b.vto)));
+    const sub=fs.reduce((x,f)=>x+(f.monto||0),0);
+    return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 18px;border:1px solid #e3e3e3;border-radius:8px;overflow:hidden">'
+      +'<tr><td colspan="5" style="'+F+'background:'+E.color+';color:#ffffff;font-size:14px;font-weight:bold;padding:10px 14px">'+escH(E.razon)+'</td></tr>'
+      +'<tr style="background:#f6f6f6">'+['Factura','Emisión','Vencimiento','Estado','Importe'].map((h,ix)=>'<td style="'+F+'font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.4px;padding:8px 14px;'+(ix===4?'text-align:right':'')+'">'+h+'</td>').join('')+'</tr>'
+      +fs.map(f=>{
+        const v=f.vto&&f.vto!=='-'?new Date(f.vto+'T00:00:00'):null;const d=v?Math.round((hoy-v)/86400000):null;
+        const est=d===null?'<span style="color:#777">—</span>':d>0?'<span style="'+F+'background:#fdecea;color:#c0392b;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;white-space:nowrap">Vencida hace '+d+' día'+(d!==1?'s':'')+'</span>':d===0?'<span style="'+F+'background:#fff4d6;color:#a67c00;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px">Vence hoy</span>':'<span style="'+F+'background:#e8f6ee;color:#1e8449;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;white-space:nowrap">Vence en '+(-d)+' día'+(-d!==1?'s':'')+'</span>';
+        return '<tr><td style="'+F+'font-size:13px;color:#222;padding:9px 14px;border-top:1px solid #eee;white-space:nowrap">'+escH(f.num||'')+'</td>'
+          +'<td style="'+F+'font-size:13px;color:#555;padding:9px 14px;border-top:1px solid #eee">'+fFecha(f.fecha_emision)+'</td>'
+          +'<td style="'+F+'font-size:13px;color:#555;padding:9px 14px;border-top:1px solid #eee">'+fFecha(f.vto)+'</td>'
+          +'<td style="padding:9px 14px;border-top:1px solid #eee">'+est+(benefSet.has(f.num)?'<div style="margin-top:4px"><span style="'+F+'background:#f5c400;color:#111;font-size:10.5px;font-weight:bold;padding:2px 8px;border-radius:10px;white-space:nowrap">'+opt.pct+'% OFF'+(addDias(f.fecha_emision,opt.dias)?' pagando hasta '+fFecha(addDias(f.fecha_emision,opt.dias)):'')+'</span></div>':'')+'</td>'
+          +'<td style="'+F+'font-size:13px;color:#222;font-weight:bold;padding:9px 14px;border-top:1px solid #eee;text-align:right;white-space:nowrap">'+money(f.monto)+'</td></tr>';
+      }).join('')
+      +(emps.length>1?'<tr><td colspan="4" style="'+F+'font-size:12px;color:#555;padding:9px 14px;border-top:1px solid #ddd;text-align:right">Subtotal '+escH(E.nombre)+'</td><td style="'+F+'font-size:13px;font-weight:bold;color:#222;padding:9px 14px;border-top:1px solid #ddd;text-align:right;white-space:nowrap">'+money(sub)+'</td></tr>':'')
+      +'</table>';
+  };
+  const cuentaEmp=e=>{const E=EMPRESAS_COBRO[e];
+    const fila=(k,v,mono)=>'<tr><td style="'+F+'font-size:12px;color:#777;padding:3px 0;width:110px">'+k+'</td><td style="'+F+'font-size:13px;color:#222;padding:3px 0;'+(mono?'font-family:Consolas,Menlo,monospace;letter-spacing:.3px;':'')+'font-weight:bold">'+escH(v)+'</td></tr>';
+    return '<td valign="top" style="padding:0 6px 12px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e3e3e3;border-left:4px solid '+E.color+';border-radius:6px;background:#fafafa"><tr><td style="padding:12px 14px">'
+      +'<div style="'+F+'font-size:13px;font-weight:bold;color:'+E.color+';margin-bottom:6px">Para facturas de '+escH(E.nombre)+'</div>'
+      +'<table role="presentation" cellpadding="0" cellspacing="0">'+fila('Banco',E.banco)+fila('Titular',E.titular)+fila('CUIT',E.cuit)+fila('Cuenta',E.cuenta)+fila('CBU',E.cbu,true)+fila('Alias',E.alias,true)+'</table>'
+      +'</td></tr></table></td>';};
+  const remitente=opt.remitente||'';
+  // Beneficio: solo sobre las facturas elegidas
+  const benefFs=emps.flatMap(e=>grupos[e]).filter(f=>benefSet.has(f.num));
+  const pctN=parseFloat(String(opt.pct).replace(',','.'))||0;
+  const benefHtml=(opt.beneficio&&benefFs.length)?'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px"><tr><td style="background:#fff8db;border:1px solid #f5c400;border-radius:8px;padding:14px 18px">'
+    +'<div style="'+F+'font-size:12px;color:#a67c00;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Queremos ofrecerte un beneficio</div>'
+    +'<div style="'+F+'font-size:15px;color:#222;line-height:1.5;margin-bottom:10px">👉 '+escH(opt.beneficio)+'</div>'
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:6px;border:1px solid #f0e2a8">'
+    +'<tr>'+['Factura','Pagando hasta','Importe','Con '+pctN+'% OFF'].map((h,ix)=>'<td style="'+F+'font-size:10.5px;color:#a67c00;text-transform:uppercase;letter-spacing:.4px;padding:7px 12px;'+(ix>=2?'text-align:right':'')+'">'+h+'</td>').join('')+'</tr>'
+    +benefFs.map(f=>{const lim=addDias(f.fecha_emision,opt.dias);const neto=(f.monto||0)*(1-pctN/100);
+      return '<tr><td style="'+F+'font-size:13px;color:#222;padding:7px 12px;border-top:1px solid #f5ecc4;white-space:nowrap">'+escH(f.num||'')+'</td>'
+        +'<td style="'+F+'font-size:13px;color:#222;font-weight:bold;padding:7px 12px;border-top:1px solid #f5ecc4">'+(lim?fFecha(lim):'—')+'</td>'
+        +'<td style="'+F+'font-size:12.5px;color:#999;text-decoration:line-through;padding:7px 12px;border-top:1px solid #f5ecc4;text-align:right;white-space:nowrap">'+money(f.monto)+'</td>'
+        +'<td style="'+F+'font-size:14px;color:#1e8449;font-weight:bold;padding:7px 12px;border-top:1px solid #f5ecc4;text-align:right;white-space:nowrap">'+money(neto)+'</td></tr>';}).join('')
+    +(benefFs.length>1?'<tr><td colspan="3" style="'+F+'font-size:12px;color:#555;padding:7px 12px;border-top:1px solid #f0e2a8;text-align:right">Ahorrás en total</td><td style="'+F+'font-size:14px;color:#1e8449;font-weight:bold;padding:7px 12px;border-top:1px solid #f0e2a8;text-align:right;white-space:nowrap">'+money(benefFs.reduce((x,f)=>x+(f.monto||0)*pctN/100,0))+'</td></tr>':'')
+    +'</table></td></tr></table>':'';
+  const firmaEmp=emps.map(e=>EMPRESAS_COBRO[e].razon).join(' · ');
+  const html='<div style="background:#f2f2f2;padding:20px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;margin:0 auto;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e3e3e3">'
+    +'<tr><td style="background:#111111;padding:18px 24px"><span style="'+F+'color:#f5c400;font-size:18px;font-weight:bold;letter-spacing:.3px">'+escH(nombresEmp)+'</span><span style="'+F+'color:#bbbbbb;font-size:13px"> &nbsp;·&nbsp; Área de Cobranzas</span></td></tr>'
+    +'<tr><td style="padding:24px">'
+    +'<p style="'+F+'font-size:15px;color:#222;margin:0 0 6px">Hola, ¿cómo estás?</p>'
+    +'<p style="'+F+'font-size:14px;color:#444;line-height:1.6;margin:0 0 6px">Mi nombre es <strong>'+escH(remitente)+'</strong>, del área de cobranzas de <strong>'+escH(nombresEmp)+'</strong>.</p>'
+    +'<p style="'+F+'font-size:14px;color:#444;line-height:1.6;margin:0 0 18px">Te escribimos para recordarte que '+(emps.reduce((n,e)=>n+grupos[e].length,0)>1?'se encuentran pendientes las siguientes facturas':'se encuentra pendiente la siguiente factura')+':</p>'
+    +emps.map(tablaEmp).join('')
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px;background:#111111;border-radius:8px"><tr><td style="padding:14px 18px"><span style="'+F+'color:#bbbbbb;font-size:13px">Total pendiente</span></td><td style="padding:14px 18px;text-align:right"><span style="'+F+'color:#f5c400;font-size:20px;font-weight:bold;white-space:nowrap">'+money(total)+'</span></td></tr></table>'
+    +benefHtml
+    +'<p style="'+F+'font-size:14px;color:#222;font-weight:bold;margin:0 0 10px">El pago puede realizarse mediante:</p>'
+    +'<p style="'+F+'font-size:14px;color:#444;margin:0 0 10px">🏦 <strong>Transferencia bancaria / Depósito</strong></p>'
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 6px"><tr>'+emps.map(cuentaEmp).join('')+'</tr></table>'
+    +'<p style="'+F+'font-size:14px;color:#444;margin:0 0 20px">🧾 <strong>Cheque al día</strong></p>'
+    +'<p style="'+F+'font-size:12.5px;color:#777;line-height:1.6;margin:0 0 18px">Si ya realizaste el pago, o este correo no corresponde a tu sector/casilla, por favor desestimalo.</p>'
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px"><tr><td style="background:#f6f6f6;border-radius:8px;padding:12px 16px"><div style="'+F+'font-size:13px;color:#444;margin-bottom:4px">Ante cualquier consulta, podés comunicarte con nosotros:</div><div style="'+F+'font-size:13px;color:#222">📞 <strong>'+escH(CONTACTO_COBRANZAS.tel)+'</strong> &nbsp;&nbsp; 📩 <a href="mailto:'+CONTACTO_COBRANZAS.mail+'" style="color:#1f6fb2">'+escH(CONTACTO_COBRANZAS.mail)+'</a></div></td></tr></table>'
+    +'<p style="'+F+'font-size:14px;color:#444;margin:0 0 14px">¡Gracias por tu colaboración de siempre!</p>'
+    +'<p style="'+F+'font-size:14px;color:#222;line-height:1.5;margin:0">Saludos,<br><strong>'+escH(remitente)+'</strong> / Área de Cobranzas<br><span style="color:#777">'+escH(firmaEmp)+'</span></p>'
+    +'</td></tr>'
+    +'<tr><td style="background:#f5c400;height:6px;line-height:6px;font-size:0">&nbsp;</td></tr>'
+    +'</table></div>';
+  // Versión texto (para mailto y clientes sin formato)
+  const txt='Hola, ¿cómo estás?\n\nMi nombre es '+remitente+', del área de cobranzas de '+nombresEmp+'.\n\nTe escribimos para recordarte que se encuentran pendientes las siguientes facturas:\n'
+    +emps.map(e=>'\n'+EMPRESAS_COBRO[e].razon+'\n'+grupos[e].map(f=>'- '+f.num+' · vto '+fFecha(f.vto)+' · '+money(f.monto)).join('\n')).join('\n')
+    +'\n\nTOTAL PENDIENTE: '+money(total)+'\n'
+    +(opt.beneficio&&benefFs.length?'\nQueremos ofrecerte un beneficio:\n👉 '+opt.beneficio+'\n'+benefFs.map(f=>'- '+f.num+': pagando hasta '+(addDias(f.fecha_emision,opt.dias)?fFecha(addDias(f.fecha_emision,opt.dias)):'—')+' abonás '+money((f.monto||0)*(1-pctN/100))+' (en lugar de '+money(f.monto)+')').join('\n')+'\n':'')
+    +'\nEl pago puede realizarse mediante:\n* Transferencia bancaria / Depósito\n'
+    +emps.map(e=>{const E=EMPRESAS_COBRO[e];return E.banco+' — '+E.titular+'\nCUIT '+E.cuit+'\n'+E.cuenta+'\nCBU '+E.cbu+'\nALIAS: '+E.alias;}).join('\n\n')
+    +'\n* Cheque al día\n\nSi ya realizaste el pago, o este correo no corresponde a tu sector/casilla, por favor desestimalo.\n\nAnte cualquier consulta, podés comunicarte con nosotros:\n📞 Tel: '+CONTACTO_COBRANZAS.tel+'\n📩 Mail: '+CONTACTO_COBRANZAS.mail+'\n\n¡Gracias por tu colaboración de siempre!\n\nSaludos,\n'+remitente+' / Área de Cobranzas\n'+firmaEmp;
+  const asunto='Facturas pendientes · '+nombresEmp+' · '+c.nombre;
+  return{html,txt,asunto,total,emps};
+}
+function textoGestionMail(){
+  const c=clientes[mailCliIdx];const opt=opcionesMailCli();const m=construirMailCliente(c,opt);
+  const fs=(c.facturas||[]).filter(f=>!opt.empresa||empDeFactura(f,c)===opt.empresa);
+  const para=document.getElementById('mc-para').value.trim();
+  const ben=opt.beneficio&&opt.beneficioFacturas.length?' Beneficio '+opt.pct+'% ofrecido en: '+opt.beneficioFacturas.map(n=>{const f=fs.find(x=>x.num===n);const lim=f&&addDias(f.fecha_emision,opt.dias);return n+(lim?' (hasta '+fFecha(lim)+')':'');}).join(', ')+'.':'';
+  return '📧 Mail de cobranza enviado'+(para?' a '+para:'')+': '+fs.length+' factura'+(fs.length!==1?'s':'')+' por '+fmtF(m.total)+' ('+m.emps.map(e=>EMPRESAS_COBRO[e].nombre).join(' y ')+').'+ben;
+}
+function refrescarGestionMail(){if(!mcGestionEditada&&mailCliIdx!==null)document.getElementById('mc-gestion-txt').value=textoGestionMail();}
+// Guarda la gestión en la ficha del cliente (mismo registro que "Guardar gestión"), una sola vez por mail
+async function registrarGestionMail(forzar){
+  if(mailCliIdx===null)return;
+  if(!document.getElementById('mc-gestion-on').checked&&!forzar)return;
+  if(mcGestionHecha){if(forzar)showToast('La gestión de este mail ya está registrada');return;}
+  const idx=mailCliIdx,c=clientes[idx];
+  const nota=document.getElementById('mc-gestion-txt').value.trim();if(!nota)return;
+  const prev=gestiones[idx]||{};
+  const hist=(prev.historial||[]).slice();const d=new Date();
+  hist.push({fecha:d.toLocaleDateString('es-AR')+' '+d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}),ts:d.toISOString(),nota,por:currentUser?currentUser.nombre:''});
+  const g={...prev,email:prev.email||getEmail(idx),telefono:prev.telefono||getTel(idx),vendedor:prev.vendedor||getVend(idx),nota,historial:hist,ts:d.toISOString()};
+  mcGestionHecha=true;
+  const ok=await secureWrite('save_gestion',{cliente:c.nombre,nota,email:g.email||'',telefono:g.telefono||'',vendedor:g.vendedor||'',fecha_comp:g.fecha_comp||null,monto_comp:g.monto_comp||null,historial:JSON.stringify(hist),gestionado_por:currentUser?currentUser.nombre:''});
+  if(ok){
+    if(!prev.nota)gestionesCount++;
+    gestiones[idx]=g;render();
+    document.getElementById('mc-gestion-estado').innerHTML='<i class="ti ti-circle-check" style="color:var(--green)"></i> Gestión registrada en la ficha del cliente.';
+    showToast('Gestión registrada ✓');
+  } else {
+    mcGestionHecha=false;
+    document.getElementById('mc-gestion-estado').innerHTML='<span style="color:var(--red)">No se pudo registrar la gestión. Probá con "Registrar ahora".</span>';
+  }
+}
+function opcionesMailCli(){
+  return{remitente:document.getElementById('mc-remitente').value.trim(),
+    beneficio:document.getElementById('mc-benef-on').checked?document.getElementById('mc-beneficio').value.trim():'',
+    pct:document.getElementById('mc-pct').value||'0',dias:parseInt(document.getElementById('mc-dias').value)||0,
+    beneficioFacturas:[...document.querySelectorAll('#mc-benef-lista input[data-fc]:checked')].map(i=>i.dataset.fc),
+    empresa:document.getElementById('mc-empresa').value};
+}
+function pintarListaBeneficio(){
+  const c=clientes[mailCliIdx];const emp=document.getElementById('mc-empresa').value;
+  const dias=parseInt(document.getElementById('mc-dias').value)||0;
+  const prev=new Map([...document.querySelectorAll('#mc-benef-lista input[data-fc]')].map(i=>[i.dataset.fc,i.checked]));
+  const hoy=hoyISO();
+  const fs=(c.facturas||[]).filter(f=>!emp||empDeFactura(f,c)===emp);
+  document.getElementById('mc-benef-lista').innerHTML=fs.map(f=>{
+    const lim=addDias(f.fecha_emision,dias);const enPlazo=lim&&lim>=hoy;
+    const chk=prev.has(f.num)?prev.get(f.num):!!enPlazo;
+    return '<label class="perm-it" style="margin:3px 0"><input type="checkbox" data-fc="'+escH(f.num)+'"'+(chk?' checked':'')+'><span>'+escH(f.num)+' <small style="display:inline">· '+EMPRESAS_COBRO[empDeFactura(f,c)].nombre+' · '+fmtN(f.monto)+'</small>'
+      +'<small>'+(lim?'Emitida '+fFecha(f.fecha_emision)+' + '+dias+' días → '+(enPlazo?'<span style="color:var(--green)">beneficio hasta '+fFecha(lim)+'</span>':'<span style="color:var(--text3)">el plazo venció el '+fFecha(lim)+'</span>'):'<span style="color:var(--orange)">Sin fecha de emisión: no se puede calcular el plazo</span>')+'</small></span></label>';
+  }).join('')||'<div style="font-size:12px;color:var(--text3)">No hay facturas.</div>';
+}
+function refrescarMailCli(){
+  if(mailCliIdx===null)return;
+  const on=document.getElementById('mc-benef-on').checked;
+  document.getElementById('mc-benef-cfg').style.display=on?'':'none';
+  if(!mcBenefEditado)document.getElementById('mc-beneficio').value=textoBeneficio(document.getElementById('mc-pct').value||'0',document.getElementById('mc-dias').value||'0');
+  const c=clientes[mailCliIdx];const opt=opcionesMailCli();const m=construirMailCliente(c,opt);
+  document.getElementById('mc-benef-aviso').textContent=on&&!opt.beneficioFacturas.length?'Ninguna factura marcada: el beneficio no va a aparecer en el mail.':'';
+  refrescarGestionMail();
+  document.getElementById('mc-preview').srcdoc='<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0">'+m.html+'</body></html>';
+  document.getElementById('mc-asunto').value=m.asunto;
+  document.getElementById('mc-beneficio').disabled=!document.getElementById('mc-benef-on').checked;
+}
+function abrirMailCliente(idx){
+  mailCliIdx=idx;const c=clientes[idx];
+  document.getElementById('mc-tit').textContent='Mail a '+c.nombre;
+  document.getElementById('mc-para').value=getEmail(idx);
+  const nom=currentUser?String(currentUser.nombre||'').trim():'';
+  document.getElementById('mc-remitente').value=nom.split(' ')[0]||nom;
+  mcBenefEditado=false;document.getElementById('mc-pct').value='7';document.getElementById('mc-dias').value='5';
+  document.getElementById('mc-beneficio').value=BENEFICIO_DEFAULT;
+  document.getElementById('mc-benef-lista').innerHTML='';
+  document.getElementById('mc-benef-on').checked=true;
+  const emps=[...new Set((c.facturas||[]).map(f=>empDeFactura(f,c)))];
+  const sel=document.getElementById('mc-empresa');
+  sel.innerHTML=(emps.length>1?'<option value="">Ambas empresas (un solo mail)</option>':'')+emps.map(e=>'<option value="'+e+'">Solo '+EMPRESAS_COBRO[e].nombre+'</option>').join('');
+  document.getElementById('mc-empresa-wrap').style.display=emps.length>1?'':'none';
+  document.getElementById('mc-paso').innerHTML='';
+  mcGestionEditada=false;mcGestionHecha=false;document.getElementById('mc-gestion-on').checked=true;document.getElementById('mc-gestion-estado').innerHTML='';
+  pintarListaBeneficio();
+  refrescarMailCli();
+  document.getElementById('modal-mail-cliente').classList.add('open');
+}
+async function copiarHtml(html,txt,iframeId){
+  try{
+    if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+      await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([txt],{type:'text/plain'})})]);return true;
+    }
+  }catch(_){}
+  // Respaldo: seleccionar la vista previa y copiar
+  try{const d=document.getElementById(iframeId||'mc-preview').contentDocument;const r=d.createRange();r.selectNodeContents(d.body);const s=d.getSelection();s.removeAllRanges();s.addRange(r);const ok=d.execCommand('copy');s.removeAllRanges();return ok;}catch(_){return false;}
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest&&e.target.closest('[data-mail-idx]');
+  if(a){e.preventDefault();abrirMailCliente(parseInt(a.dataset.mailIdx));return;}
+  const m=e.target.closest&&e.target.closest('#m-btn-email');
+  if(m&&currentIdx!==null){e.preventDefault();abrirMailCliente(currentIdx);}
+});
+document.getElementById('mc-remitente').addEventListener('input',refrescarMailCli);
+document.getElementById('mc-para').addEventListener('input',refrescarGestionMail);
+document.getElementById('mc-gestion-txt').addEventListener('input',()=>{mcGestionEditada=true;});
+document.getElementById('mc-gestion-on').addEventListener('change',()=>{document.getElementById('mc-gestion-txt').disabled=!document.getElementById('mc-gestion-on').checked;});
+document.getElementById('mc-gestion-ahora').addEventListener('click',()=>registrarGestionMail(true));
+document.getElementById('mc-beneficio').addEventListener('input',()=>{mcBenefEditado=true;refrescarMailCli();});
+['mc-pct','mc-dias'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{if(id==='mc-dias'){document.getElementById('mc-benef-lista').innerHTML='';pintarListaBeneficio();}refrescarMailCli();}));
+document.getElementById('mc-benef-on').addEventListener('change',refrescarMailCli);
+document.getElementById('mc-empresa').addEventListener('change',()=>{pintarListaBeneficio();refrescarMailCli();});
+document.getElementById('mc-benef-lista').addEventListener('change',refrescarMailCli);
+document.getElementById('mc-benef-todas').addEventListener('click',()=>{document.querySelectorAll('#mc-benef-lista input[data-fc]').forEach(i=>i.checked=true);refrescarMailCli();});
+document.getElementById('mc-benef-ninguna').addEventListener('click',()=>{document.querySelectorAll('#mc-benef-lista input[data-fc]').forEach(i=>i.checked=false);refrescarMailCli();});
+document.getElementById('mc-copiar').addEventListener('click',async()=>{
+  const m=construirMailCliente(clientes[mailCliIdx],opcionesMailCli());
+  const ok=await copiarHtml(m.html,m.txt);
+  document.getElementById('mc-paso').innerHTML=ok?'<i class="ti ti-circle-check" style="color:var(--green)"></i> Copiado con formato. Ahora tocá <strong>Abrir mi correo</strong> y, en el cuerpo del mensaje, pegá con <strong>Ctrl+V</strong>.':'<span style="color:var(--red)">No se pudo copiar automáticamente: seleccioná la vista previa con el mouse y copiala con Ctrl+C.</span>';
+});
+document.getElementById('mc-abrir').addEventListener('click',()=>{
+  const para=document.getElementById('mc-para').value.trim();
+  const asunto=document.getElementById('mc-asunto').value;
+  window.location.href='mailto:'+encodeURIComponent(para)+'?subject='+encodeURIComponent(asunto);
+  registrarGestionMail(false);
+  document.getElementById('mc-paso').innerHTML='Se abrió tu correo con el destinatario y el asunto. Pegá el mensaje con <strong>Ctrl+V</strong> (si todavía no lo copiaste, tocá <strong>Copiar mail</strong>).';
+});
+function descargarEml(para,asunto,html,txt,nombreArchivo){
+  const b64=s=>btoa(unescape(encodeURIComponent(s))).replace(/.{76}/g,'$&\r\n');
+  const enc=s=>'=?UTF-8?B?'+btoa(unescape(encodeURIComponent(s)))+'?=';
+  const bound='----=_spl_'+Date.now();
+  const eml=['X-Unsent: 1','To: '+para,'Subject: '+enc(asunto),'MIME-Version: 1.0','Content-Type: multipart/alternative; boundary="'+bound+'"','',
+    '--'+bound,'Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',b64(txt),
+    '--'+bound,'Content-Type: text/html; charset=UTF-8','Content-Transfer-Encoding: base64','',b64('<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0">'+html+'</body></html>'),
+    '--'+bound+'--',''].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([eml],{type:'message/rfc822'}));
+  a.download=nombreArchivo.replace(/[^\wÁÉÍÓÚáéíóúÑñ ]+/g,'').trim().replace(/\s+/g,'_')+'.eml';
+  document.body.appendChild(a);a.click();a.remove();
+}
+document.getElementById('mc-eml').addEventListener('click',()=>{
+  const c=clientes[mailCliIdx];const m=construirMailCliente(c,opcionesMailCli());
+  const para=document.getElementById('mc-para').value.trim();
+  const b64=s=>btoa(unescape(encodeURIComponent(s))).replace(/.{76}/g,'$&\r\n');
+  const enc=s=>'=?UTF-8?B?'+btoa(unescape(encodeURIComponent(s)))+'?=';
+  const bound='----=_spl_'+Date.now();
+  const eml=['X-Unsent: 1','To: '+para,'Subject: '+enc(document.getElementById('mc-asunto').value),'MIME-Version: 1.0','Content-Type: multipart/alternative; boundary="'+bound+'"','',
+    '--'+bound,'Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',b64(m.txt),
+    '--'+bound,'Content-Type: text/html; charset=UTF-8','Content-Transfer-Encoding: base64','',b64('<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0">'+m.html+'</body></html>'),
+    '--'+bound+'--',''].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([eml],{type:'message/rfc822'}));
+  a.download='Mail_'+c.nombre.replace(/[^\wÁÉÍÓÚáéíóúÑñ ]+/g,'').trim().replace(/\s+/g,'_')+'.eml';
+  document.body.appendChild(a);a.click();a.remove();
+  registrarGestionMail(false);
+  document.getElementById('mc-paso').innerHTML='Se descargó el borrador. Abrilo con <strong>Outlook</strong>: queda listo para revisar y tocar <em>Enviar</em>.';
+});
+document.getElementById('mc-cerrar').addEventListener('click',()=>document.getElementById('modal-mail-cliente').classList.remove('open'));
+
+// ===================== INFORME AL VENDEDOR (mail con formato) =====================
+let mvEstado=null; // datos del informe armado al tocar "Mail semanal"
+async function datosObjetivoVendedor(fv){
+  try{
+    await loadPctMora();
+    const mes=mesHoyKey();const foto=await loadFotoMes(mes);
+    const cfg=pctDelMes(foto);const base=baseObjetivo(foto);
+    const st=base.porVT[fv]||Object.entries(base.porVT).find(([k])=>normCli(k)===normCli(fv))?.[1];
+    if(!st)return null;
+    const obj=objetivoVendedor(cfg,fv,st).total;
+    const cob=cobradoMesDetalle(mes,base);
+    const cm=cob.porV[fv]||0;
+    return{mes,objetivo:obj,cobrado:cm,pct:obj?Math.round(cm/obj*100):0,fijo:!!foto};
+  }catch(e){console.warn('Objetivo vendedor:',e);return null;}
+}
+function construirMailVendedor(E,nota){
+  const F="font-family:Arial,Helvetica,sans-serif;";
+  const money=n=>'$ '+Math.round(n||0).toLocaleString('es-AR');
+  const fv=E.fv,d=E.d;
+  const porT={'Mora crítica':0,'Mora media':0,'Mora temprana':0,'Preventivo':0};
+  d.clientes.forEach(({c})=>{porT[tramo(c.dias_vencidos)]+=c.deuda;});
+  const colT={'Mora crítica':'#c0392b','Mora media':'#e67e22','Mora temprana':'#f1b70f','Preventivo':'#27ae60'};
+  const bgT={'Mora crítica':'#fdecea','Mora media':'#fdf0e3','Mora temprana':'#fff6d9','Preventivo':'#e8f6ee'};
+  const lblT={'Mora crítica':'Crítica +45d','Mora media':'Media 16–45d','Mora temprana':'Temprana 1–15d','Preventivo':'Preventivo'};
+  const tot=d.deuda||1;
+  const kpi=(lbl,val,sub,col)=>'<td width="25%" valign="top" style="padding:0 5px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e3e3e3;border-top:4px solid '+col+';border-radius:6px"><tr><td style="padding:10px 12px"><div style="'+F+'font-size:10.5px;color:#777;text-transform:uppercase;letter-spacing:.4px">'+lbl+'</div><div style="'+F+'font-size:18px;font-weight:bold;color:'+col+';margin-top:3px;white-space:nowrap">'+val+'</div><div style="'+F+'font-size:11px;color:#888;margin-top:2px">'+sub+'</div></td></tr></table></td>';
+  const nV=E.vencidos.length;
+  let h='<div style="background:#f2f2f2;padding:20px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:680px;margin:0 auto;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e3e3e3">'
+    +'<tr><td style="background:#111111;padding:18px 24px"><div style="'+F+'color:#f5c400;font-size:18px;font-weight:bold">Informe de cobranzas · '+escH(fv)+'</div><div style="'+F+'color:#bbbbbb;font-size:12.5px;margin-top:3px">Situación de tu cartera al '+escH(E.hoy)+' · SPL Distribuidora / Spotsline</div></td></tr>'
+    +'<tr><td style="padding:22px 24px">'
+    +'<p style="'+F+'font-size:15px;color:#222;margin:0 0 6px">Hola '+escH(String(fv).split(' ')[0])+',</p>'
+    +'<p style="'+F+'font-size:14px;color:#444;line-height:1.6;margin:0 0 18px">Te paso el resumen de tu cartera de cobranzas. Abajo están los clientes en mora para gestionar, ordenados por prioridad.</p>'
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr>'
+    +kpi('Cartera total',money(d.deuda),d.clientes.length+' clientes','#111111')
+    +kpi('Deuda vencida',money(E.totalVencido),nV+' cliente'+(nV!==1?'s':''),'#c0392b')
+    +kpi('Preventivo',money(E.totalPreventivo),E.preventivos.length+' sin vencer','#27ae60')
+    +kpi('Con gestión',d.conGestion+' / '+d.clientes.length,d.clientes.length?Math.round(d.conGestion/d.clientes.length*100)+'% de la cartera':'','#1f6fb2')
+    +'</tr></table>';
+  // Objetivo del mes
+  if(E.obj){
+    const p=Math.min(100,E.obj.pct);const col=E.obj.pct>=100?'#27ae60':E.obj.pct>=60?'#f1b70f':'#c0392b';
+    h+='<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;border:1px solid #e3e3e3;border-radius:8px"><tr><td style="padding:14px 16px">'
+      +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="'+F+'font-size:13px;font-weight:bold;color:#222">🎯 Objetivo de '+escH(nombreMesObj(E.obj.mes))+'</td><td style="'+F+'font-size:20px;font-weight:bold;color:'+col+';text-align:right">'+E.obj.pct+'%</td></tr></table>'
+      +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 6px;background:#eeeeee;border-radius:6px"><tr><td width="'+Math.max(p,1)+'%" style="background:'+col+';height:10px;line-height:10px;font-size:0;border-radius:6px">&nbsp;</td><td style="font-size:0">&nbsp;</td></tr></table>'
+      +'<div style="'+F+'font-size:12.5px;color:#555">Cobrado <strong style="color:#222">'+money(E.obj.cobrado)+'</strong> de <strong style="color:#222">'+money(E.obj.objetivo)+'</strong>'+(E.obj.objetivo>E.obj.cobrado?' · faltan <strong style="color:#c0392b">'+money(E.obj.objetivo-E.obj.cobrado)+'</strong>':' · <strong style="color:#27ae60">¡objetivo cumplido!</strong>')+'</div>'
+      +'</td></tr></table>';
+  }
+  // Distribución por tramo
+  h+='<div style="'+F+'font-size:12px;color:#777;text-transform:uppercase;letter-spacing:.4px;margin:0 0 6px">Cómo está tu cartera</div>'
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 6px;border-radius:6px;overflow:hidden"><tr>'
+    +Object.keys(porT).filter(t=>porT[t]>0).map(t=>'<td width="'+Math.max(1,Math.round(porT[t]/tot*100))+'%" style="background:'+colT[t]+';height:14px;line-height:14px;font-size:0">&nbsp;</td>').join('')
+    +'</tr></table>'
+    +'<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr>'
+    +Object.keys(porT).map(t=>'<td style="'+F+'font-size:12px;color:#444;padding:4px 14px 0 0;white-space:nowrap"><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:'+colT[t]+';margin-right:5px"></span>'+lblT[t]+': <strong>'+money(porT[t])+'</strong></td>').join('')
+    +'</tr></table>';
+  if(d.estancados)h+='<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr><td style="background:#fdecea;border:1px solid #f5b7b1;border-radius:8px;padding:12px 16px;'+F+'font-size:13.5px;color:#922b21">⚠ <strong>'+d.estancados+' cliente'+(d.estancados!==1?'s':'')+' en mora sin gestión hace '+UMBRAL_ESTANCADO+' días o más</strong> — '+money(d.estancadosDeuda)+'. Son la prioridad de esta semana.</td></tr></table>';
+  // Detalle vencidos
+  h+='<div style="'+F+'font-size:14px;font-weight:bold;color:#222;margin:0 0 8px">Clientes en mora para gestionar ('+money(E.totalVencido)+')</div>';
+  if(!nV)h+='<p style="'+F+'font-size:13.5px;color:#27ae60;margin:0 0 18px">✅ No tenés deudas vencidas: toda tu cartera está en preventivo.</p>';
+  else{
+    h+='<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 18px;border:1px solid #e3e3e3">'
+      +'<tr style="background:#f6f6f6">'+['Cliente','Mora','Deuda','Seguimiento'].map((x,ix)=>'<td style="'+F+'font-size:10.5px;color:#777;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;'+(ix===2?'text-align:right':'')+'">'+x+'</td>').join('')+'</tr>'
+      +E.vencidos.map(({c,i})=>{
+        const t=tramo(c.dias_vencidos);const g=gestiones[i]||{};const dsg=diasSinGestion(i);
+        const seg=dsg===null?'<span style="'+F+'background:#fdecea;color:#c0392b;font-size:11px;font-weight:bold;padding:2px 7px;border-radius:9px;white-space:nowrap">Nunca gestionado</span>'
+          :dsg>=UMBRAL_ESTANCADO?'<span style="'+F+'background:#fdf0e3;color:#b9590b;font-size:11px;font-weight:bold;padding:2px 7px;border-radius:9px;white-space:nowrap">Sin gestión hace '+dsg+' d</span>'
+          :'<span style="'+F+'background:#e8f6ee;color:#1e8449;font-size:11px;font-weight:bold;padding:2px 7px;border-radius:9px;white-space:nowrap">'+(dsg===0?'Gestionado hoy':'Gestionado hace '+dsg+' d')+'</span>';
+        const rec=reclamos[c.nombre];
+        return '<tr><td style="'+F+'padding:9px 10px;border-top:1px solid #eee;vertical-align:top"><div style="font-size:13px;font-weight:bold;color:#222">'+escH(c.nombre)+'</div>'
+          +(g.nota?'<div style="font-size:11.5px;color:#666;margin-top:2px">Última gestión: '+escH(String(g.nota).slice(0,140))+'</div>':'')
+          +(g.fecha_comp?'<div style="font-size:11.5px;color:#1f6fb2;margin-top:2px">Compromiso de pago: '+escH(fmtFecha(g.fecha_comp))+(g.monto_comp?' por '+money(g.monto_comp):'')+'</div>':'')
+          +(rec&&rec.veces>=1?'<div style="font-size:11.5px;color:#c0392b;margin-top:2px">⚠ Reclamado en los últimos '+(rec.veces+1)+' informes sin novedades</div>':'')
+          +'</td><td style="padding:9px 10px;border-top:1px solid #eee;vertical-align:top;white-space:nowrap"><span style="'+F+'background:'+bgT[t]+';color:'+colT[t]+';font-size:11px;font-weight:bold;padding:2px 7px;border-radius:9px">'+lblT[t].split(' ')[0]+'</span><div style="'+F+'font-size:11.5px;color:#777;margin-top:3px">+'+c.dias_vencidos+' días</div></td>'
+          +'<td style="'+F+'font-size:13px;font-weight:bold;color:#222;padding:9px 10px;border-top:1px solid #eee;text-align:right;vertical-align:top;white-space:nowrap">'+money(c.deuda)+'</td>'
+          +'<td style="padding:9px 10px;border-top:1px solid #eee;vertical-align:top">'+seg+'</td></tr>';
+      }).join('')+'</table>';
+  }
+  // Próximos vencimientos (preventivo)
+  const prox=E.preventivos.map(({c})=>{const v=(c.facturas||[]).map(f=>f.vto).filter(x=>x&&x!=='-').sort()[0];return{c,v};}).filter(x=>x.v&&x.v>=hoyISO()).sort((a,b)=>a.v.localeCompare(b.v)).slice(0,10);
+  if(prox.length)h+='<div style="'+F+'font-size:14px;font-weight:bold;color:#222;margin:0 0 8px">Próximos vencimientos (para anticiparte)</div>'
+    +'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 18px;border:1px solid #e3e3e3">'
+    +prox.map(({c,v})=>'<tr><td style="'+F+'font-size:13px;color:#222;padding:7px 10px;border-top:1px solid #eee">'+escH(c.nombre)+'</td><td style="'+F+'font-size:12.5px;color:#1e8449;padding:7px 10px;border-top:1px solid #eee;white-space:nowrap">vence '+fmtFecha(v)+'</td><td style="'+F+'font-size:13px;font-weight:bold;color:#222;padding:7px 10px;border-top:1px solid #eee;text-align:right;white-space:nowrap">'+money(c.deuda)+'</td></tr>').join('')
+    +'</table>';
+  if(nota)h+='<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px"><tr><td style="background:#fff8db;border-left:4px solid #f5c400;border-radius:6px;padding:12px 16px;'+F+'font-size:14px;color:#222;line-height:1.5">'+escH(nota).replace(/\n/g,'<br>')+'</td></tr></table>';
+  h+='<p style="'+F+'font-size:14px;color:#222;line-height:1.5;margin:0">Saludos,<br><strong>'+escH(E.remitente)+'</strong><br><span style="color:#777">Área de Cobranzas · SPL Distribuidora / Spotsline</span></p>'
+    +'</td></tr><tr><td style="background:#f5c400;height:6px;line-height:6px;font-size:0">&nbsp;</td></tr></table></div>';
+  return h;
+}
+function refrescarMailVendedor(){
+  if(!mvEstado)return;
+  document.getElementById('mv-preview').srcdoc='<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0">'+construirMailVendedor(mvEstado,document.getElementById('mv-nota').value.trim())+'</body></html>';
+}
+function registrarReclamoInforme(){
+  if(!mailVencidosActuales.length)return;
+  const lista=mailVencidosActuales.slice();mailVencidosActuales=[];
+  secureWrite('registrar_reclamo',{clientes:lista}).then(ok=>{
+    if(ok)lista.forEach(nombre=>{const prev=reclamos[nombre];reclamos[nombre]=prev?{...prev,veces:(prev.veces||0)+1}:{cliente:nombre,veces:1};});
+  });
+}
+function recordarMailVendedor(){
+  const para=document.getElementById('mv-para').value.trim();
+  if(mvVendedorActual&&para&&mailsValidos(para)&&normMails(para)!==normMails(mailDeVendedor(mvVendedorActual))&&puede('mails_vendedores')){
+    const v=mvVendedorActual;guardarMailsVendedores(m=>{m[v]=normMails(para);}).then(()=>showToast('Mail de '+v+' guardado ✓')).catch(()=>{});
+  }
+}
+document.getElementById('mv-nota').addEventListener('input',refrescarMailVendedor);
+document.getElementById('mv-copiar').addEventListener('click',async()=>{
+  if(!mvEstado)return;
+  const nota=document.getElementById('mv-nota').value.trim();
+  const ok=await copiarHtml(construirMailVendedor(mvEstado,nota),document.getElementById('mv-cuerpo').value+(nota?'\n\n'+nota:''),'mv-preview');
+  document.getElementById('mv-paso').innerHTML=ok?'<i class="ti ti-circle-check" style="color:var(--green)"></i> Copiado con formato. Tocá <strong>Abrir mi correo</strong> y pegá con <strong>Ctrl+V</strong> en el cuerpo.':'<span style="color:var(--red)">No se pudo copiar automáticamente: seleccioná la vista previa y copiala con Ctrl+C.</span>';
+});
+document.getElementById('mv-eml').addEventListener('click',()=>{
+  if(!mvEstado)return;
+  const nota=document.getElementById('mv-nota').value.trim();
+  recordarMailVendedor();
+  descargarEml(document.getElementById('mv-para').value.trim(),document.getElementById('mv-asunto').value,construirMailVendedor(mvEstado,nota),document.getElementById('mv-cuerpo').value,'Informe_'+mvEstado.fv);
+  registrarReclamoInforme();
+  document.getElementById('mv-paso').innerHTML='Se descargó el borrador. Abrilo con <strong>Outlook</strong> y tocá <em>Enviar</em>.';
 });
 
 // ===================== AYUDA / INSTRUCTIVO =====================
@@ -3816,6 +4403,7 @@ function showApp(){
 }
 
 function logout(){
+  if(typeof pingTimer!=='undefined'&&pingTimer){clearInterval(pingTimer);pingTimer=null;}
   currentUser=null;
   currentToken=null;
   document.getElementById('login-screen').style.display='flex';
@@ -3858,6 +4446,7 @@ async function doLogin(){
       currentUser=data.user;
       currentToken=data.token;
       showApp();
+      registrarIngreso();
     } else {
       document.getElementById('login-error').textContent='Usuario o contraseña incorrectos';
     }
